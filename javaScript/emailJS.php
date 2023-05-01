@@ -29,7 +29,6 @@
                 },
             }).done(function(dados) {
                 $(`.conteudopg.${doc.replace(/ /g, '')}`).append(dados);
-
                 $(`.paginas.${doc.replace(/ /g, '')}`).html(`${totalPages}<span>Paginas</span>`);
 
 
@@ -58,8 +57,6 @@
         },
 
         enviar: function(id, arrArquivosPasta, nome) {
-            $('#spinner').show();
-            $('#body').hide();
             $.ajax({
                 url: `/src/controller/emailController.php?action=sendEmail`,
                 'data': funcFormDatation(id, arrArquivosPasta, nome),
@@ -74,6 +71,7 @@
                 $('#body').show();
                 $('#spinner').hide();
                 $('#resultPrint').append(dados);
+
 
             });
 

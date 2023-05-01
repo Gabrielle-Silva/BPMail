@@ -39,4 +39,3 @@
 
 </form>
 <hr>
-<button id="submitEnviar" type="button" class="btnFix" title="ENVIAR"><i class="fa-solid fa-paper-plane"></i> <i class="fa-solid fa-chevron-right"></button>

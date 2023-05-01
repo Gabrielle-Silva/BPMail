@@ -188,7 +188,6 @@ switch ($action) {
             $arrDelete = [];
             $arrDeleteErrorTodos = [];
             $arrDeleteErrorFunc = [];
-
             if ($arquivosPasta != "") {
                 if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"))) {
                     mkdir(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"));
@@ -206,29 +205,26 @@ switch ($action) {
             }
 
             foreach ($_FILES as $key => $value) {
-                for ($i = 0; $i < count($_FILES); $i++) {
-
-                    if (isset($value['name'][$i])) {
-                        $statusAttachment =  $mail->AddAttachment($value['tmp_name'][$i], $value['name'][$i]);
-                        if (($statusAttachment) && (str_contains($key, 'arquivosGeral'))) {
-                            $strPath = 'Enviados' . date("d-m-Y") . '/.Geral';
-                            if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
-                                mkdir(__ABS_DIR__ . __PATH_FILE__ . $strPath);
-                            }
-                            if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name'][$i])) {
-                                copy($value['tmp_name'][$i], __ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name'][$i]);
-                            }
+                if (isset($value['name'])) {
+                    $statusAttachment =  $mail->AddAttachment($value['tmp_name'], $value['name']);
+                    if (($statusAttachment) && (str_contains($key, 'arquivosGeral'))) {
+                        $strPath = 'Enviados' . date("d-m-Y") . '/.Geral';
+                        if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
+                            mkdir(__ABS_DIR__ . __PATH_FILE__ . $strPath);
                         }
-                        if (($statusAttachment) && (str_contains($key, 'arquivos' . str_replace(' ', '-', $nome)))) {
-                            $strPath = 'Enviados' . date("d-m-Y") . '/' . str_replace(' ', '-', $nome);
-                            if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
-                                mkdir(__ABS_DIR__ . __PATH_FILE__ . $strPath);
-                            }
-
-                            copy($value['tmp_name'][$i], __ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name'][$i]);
-
-                            $arrDeleteErrorFunc[] = $strPath . '/' . $value['name'][$i];
+                        if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name'])) {
+                            copy($value['tmp_name'], __ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name']);
                         }
+                    }
+                    if (($statusAttachment) && (str_contains($key, str_replace(' ', '-', $nome)))) {
+                        $strPath = 'Enviados' . date("d-m-Y") . '/' . str_replace(' ', '-', $nome);
+                        if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
+                            mkdir(__ABS_DIR__ . __PATH_FILE__ . $strPath);
+                        }
+
+                        copy($value['tmp_name'], __ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name']);
+
+                        $arrDeleteErrorFunc[] = $strPath . '/' . $value['name'];
                     }
                 }
             }
@@ -248,7 +244,7 @@ switch ($action) {
             }
         } catch (Exception $e) {
 
-            $msgResult = 'O envio do email não foi concluido. Erro: ' . $mail->ErrorInfo;
+            $msgResult = 'Erro ao enviar email: ' . $mail->ErrorInfo;
             if (isset($arrDeleteErrorFunc)) {
                 foreach ($arrDeleteErrorFunc as $arqF) {
                     unlink(__ABS_DIR__ . __PATH_FILE__ . $arqF);
@@ -256,7 +252,7 @@ switch ($action) {
             }
         }
 
-        echo '<div>Destinatario: ' . $email . '<br>' . 'Assunto: ' . $assunto . '<br>' . $msgResult . '<br>Data/Hora do envio: ' . date('d/m/Y H:i') . '</div><hr>';
+        echo '<div>Destinatario: ' . $email . '<br>' . 'Assunto: ' . $assunto . '<br>' . $msgResult . '<br>Data/Hora: ' . date('d/m/Y H:i') . '</div><hr>';
 
         break;
 

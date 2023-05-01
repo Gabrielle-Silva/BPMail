@@ -148,6 +148,7 @@
      */
     function chamaValidar(nomeArquivo, nome, sobrenome, id) {
 
+
         var PDF_URL = '<?= __PATH_FILE__ ?>' + decodeURI(nomeArquivo) + '<?= __EXT_FILE__ ?>';
         let objResult = {};
 
@@ -214,6 +215,7 @@
                             });
 
                         }
+
                         emails.validarPdf(Object.assign({}, {
                             [i]: objPaginas
 

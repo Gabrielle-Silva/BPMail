@@ -32,12 +32,15 @@
         <!-- Conteudo -->
         <div id="listaFunc"></div>
         <div id="listaEmails" style="display: none;"></div>
-        <div id="previa" style="display: none;"><i class="fa-solid fa-eye icon-page"><button id="btnBackEmail" type="button" class="btnFixLeft" title="VOLTAR"><i class="fa-solid fa-chevron-left"></i> <i class="fa-solid fa-envelope"></i></button>
-                <div class="titulo">
 
-                    <h2>PRÉVIA EMAILS</h2>
-                </div>
-            </i></div>
+        <div id="previa" style="display: none;"><button id="btnBackEmail" type="button" class="btnFixLeft" title="VOLTAR"><i class="fa-solid fa-chevron-left"></i> <i class="fa-solid fa-envelope"></i></button>
+            <i class="fa-solid fa-eye icon-page"></i>
+            <div class="titulo">
+                <h2>PRÉVIA EMAILS</h2>
+                <button id="submitEnviar" type="button" class="btnFix" title="ENVIAR"><i class="fa-solid fa-paper-plane"></i> <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+        </div>
         <div id="result" style="display: none;"><i class="fa-solid fa-paper-plane icon-page"></i>
             <div class="titulo">
 

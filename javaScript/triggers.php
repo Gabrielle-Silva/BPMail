@@ -144,12 +144,28 @@
                 emails.previa(id, fileList, nome);
             });
             $('#listaEmails').hide();
+
+
             $('#previa').show();
         });
 
+        $(`
+                    #submitEnviar`).on('click', function() {
+            if (confirm('Deseja enviar os emails?')) {
+                $('#spinner').show();
+                $('#body').hide();
+                $("[id='emailsData']").each(function() {
+                    const id = $(this).attr('data-id');
+                    const nome = $(this).attr('data-nome');
+                    const fileList = $(this).attr('data-listaArquivos');
+                    emails.enviar(id, fileList, nome);
+                });
+                $('#previa').hide();
+                $('#result').show();
 
+            }
 
-
+        });
 
         /**
          * On click #btnBackEmp
@@ -212,11 +228,13 @@
         $("#btnValidaTodos").on('click', function() {
             $('[id="ArquivoPdfPasta"]').each(function(btn) {
                 const id = $(this).attr('data-id');
-                const FileName = $(this).attr('data-nome');
-                const firstName = $(this).attr('data-sobrenome');
-                const lastName = $(this).attr('data-nomeArquivo');
+                const firstName = $(this).attr('data-nome');
+                const lastName = $(this).attr('data-sobrenome');
+                const FileName = $(this).attr('data-nomeArquivo');
                 chamaValidar(FileName, firstName, lastName, id);
             });
+            $('[id="oblvalidar"]').show();
+            $('.validarTodos').hide();
         });
 
         $("#arquivosGeral").on('change', function() {
@@ -226,19 +244,30 @@
 
         $("[id='ArquivoPdfPasta']").each(function(btn) {
             $(this).on("click", function() {
-                const FileName = $(this).attr('data-nome');
-                viewPdf('FileName<?= __EXT_FILE__ ?>', '<?= __PATH_FILE__ ?>');
+                const FileName = $(this).attr('data-nomeArquivo');
+                viewPdf(`
+                    $ {
+                        FileName
+                    }
+                    <?= __EXT_FILE__ ?>`, '<?= __PATH_FILE__ ?>');
             });
         });
 
         $("[id='arquivosLabel']").each(function(btn) {
             const id = $(this).attr('data-id');
             const nome = $(this).attr('data-nome');
-            $(`#arquivos${id}`).on('change', function(e) {
-                btnAddAnexos(e.target, `N${nome.replace(' ', '')}`);
+            $(`
+                    #arquivos${
+                        id
+                    }
+                    `).on('change', function(e) {
+                btnAddAnexos(e.target, `
+                    N$ {
+                        nome.replace(' ', '')
+                    }
+                    `);
             });
         });
-
 
 
     }
@@ -250,30 +279,25 @@
          */
         $("#btnBackEmail").on('click', function() {
             $('#listaEmails').show();
-            $('#previa').html(`<i class="fa-solid fa-eye icon-page"><button id="submitPrevia" type="button" class="btnFixLeft" onclick="btnAnteriorEmails();" title="VOLTAR"><i class="fa-solid fa-chevron-left"></i> <i class="fa-solid fa-envelope"></i></button>
-            <div class="titulo">
-
-                <h2>PRÉVIA EMAILS</h2>
-            </div>
-        </i></div>`);
+            $('#previa').html(` < button id = "btnBackEmail"
+                    type = "button"
+                    class = "btnFixLeft"
+                    title = "VOLTAR" > < i class = "fa-solid fa-chevron-left" > < /i> <i class="fa-solid fa-envelope"></i > < /button> <
+                    i class = "fa-solid fa-eye icon-page" > < /i> <
+                    div class = "titulo" >
+                    <
+                    h2 > PRÉVIA EMAILS < /h2> <
+                    button id = "submitEnviar"
+                    type = "button"
+                    class = "btnFix"
+                    title = "ENVIAR" > < i class = "fa-solid fa-paper-plane" > < /i> <i class="fa-solid fa-chevron-right"></i > < /button> <
+                    /div> <
+                    /i>`);
             $('#previa').hide();
-            triggersEmailsList()
+
         });
         //TODO:
-        $(`#submitEnviar`).on('click', function(e) {
-            console.log('clicou enviar');
-            if (confirm('Deseja enviar os emails?')) {
-                $("[id='emailsData']").each(function() {
-                    const id = $(this).attr('data-id');
-                    const nome = $(this).attr('data-nome');
-                    const fileList = $(this).attr('data-listaArquivos');
-                    emails.enviar(id, fileList, nome);
-                });
-                $('#previa').hide();
-                $('#result').show();
-            }
 
-        });
     }
 
 
