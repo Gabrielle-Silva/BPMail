@@ -1,0 +1,644 @@
+:root {
+	--colorPrimary800: #001c40;
+}
+* {
+	font-family: sans-serif;
+	box-sizing: inherit;
+}
+body {
+	background-image: linear-gradient(
+		to left bottom,
+		var(--colorPrimary800),
+		rgb(57, 39, 78)
+	);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	display: grid;
+}
+
+/* --------------------------icones */
+
+i {
+	font-size: 20px;
+}
+.icon-page {
+	font-size: 40px;
+}
+
+/* --------------------------form */
+
+form {
+	display: grid;
+}
+#FormEmail {
+	border: 5px solid var(--colorPrimary800);
+	border-radius: 5px;
+	padding: 19px;
+	margin-bottom: 60px;
+}
+#previaForm {
+	display: inline-block;
+	border-bottom: 5px dashed var(--colorPrimary800);
+}
+
+/* --------------------------Label */
+
+label {
+	transition: 1s;
+	transform-origin: right center;
+	color: var(--colorPrimary800);
+	letter-spacing: 0.01em;
+	font-size: 15px;
+	box-sizing: border-box var(--colorPrimary800);
+	padding: 10px 15px;
+	display: block;
+	position: absolute;
+	margin-top: -40px;
+}
+
+/* --------------------------input */
+
+textarea {
+	width: 100%;
+	border-radius: 5px;
+}
+
+.instrucoes {
+	color: #626262;
+	font-size: 10px;
+	margin: 3px;
+}
+
+input:hover,
+select:hover {
+	color: white;
+	background-color: var(--colorPrimary800);
+	cursor: unset;
+}
+
+input,
+select,
+#tempNome {
+	border-radius: 5px;
+	border: 2px solid var(--colorPrimary800);
+	box-sizing: border-box;
+	transition: 1s;
+	background-color: none;
+	font-size: 13px;
+	font-weight: bold;
+	color: var(--colorPrimary800);
+	letter-spacing: 0.01em;
+	width: 100%;
+	display: block;
+	padding: 5px 5px;
+	position: relative;
+	z-index: 1;
+}
+input:read-only {
+	border: none;
+	background: none;
+}
+
+input:focus,
+select:focus {
+	outline: none;
+	background: var(--colorPrimary800);
+	color: white;
+}
+
+input [type='checkbox'] {
+	width: 20px;
+	padding: 3px 3px;
+	accent-color: var(--colorPrimary800);
+}
+
+/* -------------CHECKBOX */
+
+.lblCheck {
+	display: block;
+	position: relative;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+/* Esconde o checkbox padrão*/
+.lblCheck input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+.checkmarkTb {
+	position: absolute;
+	border-radius: 5px;
+	top: 27px;
+	left: 29px;
+	height: 25px;
+	width: 25px;
+	background-color: white;
+}
+.checkmarkS {
+	position: absolute;
+	border-radius: 5px;
+	margin: 30px;
+	top: 0px;
+	left: 0;
+	height: 25px;
+	width: 25px;
+	background-color: var(--colorPrimary800);
+}
+
+.lblCheck input:checked ~ .checkmarkTb {
+	background-color: var(--colorPrimary800);
+}
+.lblCheck input:checked ~ .checkmarkS {
+	background-color: white;
+}
+
+.lblCheck:hover input ~ .checkmarkTb {
+	background-color: var(--colorPrimary800);
+}
+.lblCheck:hover input ~ .checkmarkS {
+	background-color: white;
+}
+
+/* Create the checkmarkTb/indicator (hidden when not checked) */
+.checkmarkTb:after,
+.checkmarkS:after {
+	content: '';
+	position: absolute;
+	display: none;
+}
+
+/* Show the checkmarkTb when checked */
+.lblCheck input:checked ~ .checkmarkTb:after,
+.checkmarkS:after {
+	display: block;
+}
+
+/* Style the checkmarkTb/indicator */
+.lblCheck .checkmarkTb:after {
+	left: 9px;
+	top: 5px;
+	width: 5px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.lblCheck .checkmarkS:after {
+	left: 9px;
+	top: 5px;
+	width: 5px;
+	height: 10px;
+	border: solid var(--colorPrimary800);
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.select {
+	position: relative;
+	display: inline-flex;
+	padding: 30px;
+}
+.select .lblCheck {
+	padding-left: 20px;
+	width: 25px;
+	margin: 0 30px;
+}
+
+/* --------------------------titulos */
+h1 {
+	transform-origin: right center;
+}
+
+.titulo {
+	position: relative;
+	text-align: center;
+	font-size: 20px !important;
+	font-family: ui-rounded;
+}
+h4 {
+	margin: 0;
+}
+.h4 {
+	background: var(--colorPrimary800);
+	color: white;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	padding: 5px 10px;
+	font-size: 20px;
+}
+h5 {
+	margin-bottom: 0;
+}
+.h5 {
+	margin-bottom: 5px;
+	font-size: 17px;
+}
+
+/* --------------------------TABLE */
+table {
+	border-collapse: collapse;
+	border-radius: 5px;
+	overflow: hidden;
+	display: block;
+	background: rgb(206, 206, 206);
+	margin: 0;
+	position: relative;
+}
+thead {
+	height: 30px;
+	width: 100%;
+	display: table-header-group;
+	vertical-align: middle;
+	border-radius: 5px;
+}
+thead tr th {
+	padding: 15px auto;
+	background: var(--colorPrimary800);
+	color: white;
+	margin: 0;
+	border-collapse: collapse;
+	border-bottom: 3px solid #2b3035;
+	padding-left: 20px;
+}
+
+table tbody tr td input {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	overflow: hidden;
+}
+table tbody tr td {
+	padding-left: 20px;
+}
+
+table tbody tr {
+	border-bottom: 4px solid white;
+	height: 50px;
+	border-radius: 5px;
+	overflow: hidden;
+	width: 100%;
+	white-space: nowrap;
+}
+
+/* --------------------------BOTÕES */
+
+button {
+	font-weight: bold;
+	cursor: pointer;
+}
+.btnLow {
+	background: var(--colorPrimary800);
+	color: white;
+	font-weight: bold;
+	font-size: 17px;
+	letter-spacing: 0.01em;
+	width: 100px;
+	border-radius: 5px;
+	border: 3px solid var(--colorPrimary800);
+	padding: 5px 5px;
+}
+.btnFix {
+	background-color: white;
+	border-radius: 5px;
+	z-index: 100;
+	color: var(--colorPrimary800);
+	font-size: 20px;
+	box-shadow: 2px 2px 4px black;
+	width: 60px;
+	padding: 10px 2px;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	margin: 50px;
+}
+.btnFixLeft {
+	background-color: white;
+	border-radius: 5px;
+	z-index: 100;
+	color: var(--colorPrimary800);
+	font-size: 20px;
+	box-shadow: 2px 2px 4px black;
+	width: 60px;
+	padding: 10px 2px;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	margin: 50px;
+}
+.btn-sec {
+	background-color: white;
+	color: var(--colorPrimary800);
+	padding: 10px;
+	cursor: pointer;
+}
+#btn-inserirCampos {
+	position: absolute;
+	right: 60px;
+	top: 190px;
+	height: 45px;
+	width: 45px;
+}
+.buttons {
+	margin: 20px;
+	text-align: end;
+}
+#btnValidar {
+	width: 80px;
+	background-color: rgb(12, 83, 12);
+	border-radius: 5px;
+	font-weight: bold;
+	font-size: 12px;
+	color: white;
+}
+#btnValidaTodos {
+	background-color: white;
+	border-radius: 5px;
+	font-weight: bold;
+	color: rgb(1, 86, 1);
+	border: 5px solid green;
+}
+.buttons .btnLow {
+	width: 30%;
+}
+td .btnLow {
+	width: 50px;
+}
+
+#btnEnviar {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+}
+
+/* --------------------------sessões principais */
+#listaFunc,
+#listaEmails,
+#previa,
+#result {
+	width: 1000px;
+	margin: 0 auto;
+	background-color: white;
+	border-radius: 15px;
+	padding: 40px;
+	position: relative;
+	display: grid;
+}
+.sessao {
+	background: rgb(206, 206, 206);
+	border-radius: 5px;
+	margin-bottom: 20px;
+	padding: 15px;
+}
+
+#inicioEmail {
+	height: 30px;
+	display: flex;
+	text-align: center;
+}
+#saudacaoResult {
+	border-bottom: 2px solid var(--colorPrimary800);
+	border-radius: 0;
+}
+
+/* --------------------------Sessão Emails */
+#Nome {
+	background-color: rgb(206, 206, 206);
+	text-align: center;
+	font-size: 18px;
+}
+#Email {
+	margin: 10px 0;
+	font-size: 15px;
+}
+#ArquivoPdfPasta {
+	display: block;
+	margin: 3px;
+	cursor: pointer;
+}
+#ArquivoPdfPasta:hover {
+	border: 2px solid var(--colorPrimary800);
+}
+.nomeArquivo {
+	background: white;
+	font-weight: 600;
+	padding: 5px;
+	display: flex;
+}
+.paginas {
+	font-size: 45px;
+	display: inline-grid;
+	text-align: center;
+	width: 60px;
+	border-right: 2px solid;
+	padding: 4px;
+	color: var(--colorPrimary800);
+	margin: 5px;
+}
+.paginas span {
+	font-size: 12px;
+}
+.conteudopg {
+	display: inline-block;
+	font-size: 16px;
+	padding: 10px;
+	min-height: 60px;
+	vertical-align: middle;
+	width: 650px;
+}
+.conteudopg div {
+	display: flex;
+	display: inline-block;
+}
+.validaNome,
+.validaSobrenome {
+	width: 230px;
+	text-align: end;
+}
+
+/* Files */
+#files-area {
+	width: 900px;
+	margin: 0 auto;
+	display: inline-block;
+}
+.file-block {
+	border-radius: 5px;
+	background-color: rgba(83, 83, 85, 0.2);
+	margin: 5px;
+	color: initial;
+	display: inline-flex;
+	padding: 3px;
+}
+.file-block > span.name {
+	padding-right: 10px;
+	width: max-content;
+	display: inline-flex;
+	display: inline-block;
+}
+.file-delete {
+	display: flex;
+	width: 24px;
+	color: initial;
+	background-color: #6eb4ff00;
+	font-size: large;
+	justify-content: center;
+	margin-right: 3px;
+	cursor: pointer;
+}
+.file-delete:hover {
+	background-color: rgba(43, 43, 43, 0.844);
+	border-radius: 5px;
+}
+.file-delete > span {
+	transform: rotate(45deg);
+}
+#arquivosGeralLabel,
+#arquivosLabel {
+	position: relative;
+	margin: 10px;
+}
+
+/* --------------------------Modal */
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	justify-self: center;
+	margin: 5%;
+	max-width: 90%;
+	max-height: 90%;
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	text-align: center;
+}
+
+/* Modal Content/Box */
+#modal-content {
+	background-color: #fefefe;
+	padding: 20px;
+	overflow: auto;
+	display: block;
+	max-height: 800px;
+}
+
+/* The Close Button modal */
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+.bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1040;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.4);
+	backdrop-filter: blur(15px);
+	display: grid;
+}
+.the-canvas {
+	width: 90%;
+}
+
+/* --------------------------Sessão Previa */
+#anexos {
+	display: inline-block;
+	margin: 3px;
+	max-width: 850px;
+}
+.anexo {
+	width: inherit;
+	border: none;
+	background-color: #bebebe;
+	display: inline-block;
+	margin: 3px 1px;
+	border: 1px solid rgb(152 152 152);
+	border-radius: 2px;
+	height: 40px;
+}
+
+label.previa {
+	color: rgb(33, 33, 33);
+	border: 1px solid rgb(152 152 152);
+	border-radius: 2px;
+	border-width: 100%;
+	margin: 4px;
+	width: 60px;
+	padding: 7px;
+	display: inline-block;
+	position: relative;
+	text-align: center;
+	vertical-align: top;
+}
+#emailPrevia,
+#assuntoPrevia,
+#copiasPrevia {
+	color: rgb(33, 33, 33);
+	width: 851px;
+	border: none;
+	border-radius: 0px;
+	border-bottom: 1px solid rgb(152 152 152);
+	padding: 15px;
+	display: inline-block;
+}
+.nomePrevia {
+	margin: 20px;
+}
+.hideIputFiles {
+	visibility: hidden;
+	position: absolute;
+}
+
+#btn-reload {
+	justify-self: end;
+	margin-bottom: 15px;
+}
+
+/* --------------spiner loading */
+.loader {
+	width: 150px;
+	height: 150px;
+	border: 25px solid #fff;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	display: inline-block;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+}
+#spinner {
+	text-align: center;
+	width: 99%;
+	position: absolute;
+	top: 40%;
+	font-family: 'Arial Rounded MT';
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
