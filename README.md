@@ -45,3 +45,8 @@ Besides to the general configuration, you can change individual information.
 The next page is the preview, where you can see the final email before sending.
 
 ![image](https://user-images.githubusercontent.com/95390786/235409506-62e28da4-cae5-4290-aa1d-11032fe33635.png)
+
+After sending, a report is displayed with the status of each email."
+
+![image](https://user-images.githubusercontent.com/95390786/235417138-b6d5e94e-6eb4-4d3b-9521-6d4f9f13456e.png)
+
