@@ -262,7 +262,7 @@
                     }
                     `).on('change', function(e) {
                 btnAddAnexos(e.target, `
-                    N$ {
+                    N${
                         nome.replace(' ', '')
                     }
                     `);

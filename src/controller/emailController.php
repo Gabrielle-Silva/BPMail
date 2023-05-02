@@ -198,7 +198,7 @@ switch ($action) {
 
                     $statusAttachment = $mail->AddAttachment(__ABS_DIR__ . __PATH_FILE__ . $strFile, $strFile);
                     if ($statusAttachment) {
-                        copy(__ABS_DIR__ . __PATH_FILE__ . $strFile, __ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $strFile);
+
                         $arrDelete[] = $strFile;
                     }
                 }
@@ -234,11 +234,12 @@ switch ($action) {
             // Enviar
             $statusSendMail = $mail->send();
 
+
             $msgResult = 'Email enviado com sucesso';
 
             if (($statusSendMail) && (isset($arrDelete))) {
                 foreach ($arrDelete as $arq) {
-
+                    copy(__ABS_DIR__ . __PATH_FILE__ .  $arq, __ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $strFile);
                     unlink(__ABS_DIR__ . __PATH_FILE__ .  $arq);
                 }
             }
