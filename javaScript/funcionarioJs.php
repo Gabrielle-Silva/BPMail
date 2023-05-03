@@ -1,16 +1,11 @@
 <script>
     var funcionariosJs = {
         readEmployees: function() {
-
             $.ajax({
                 url: '/src/controller/funcionarioController.php?action=read',
-
-
             }).done(function(dados) {
-
                 $('#listaFunc').html(dados);
                 triggersEmployeesList();
-
             });
         },
 
@@ -18,7 +13,6 @@
             if (confirm('Deseja excluir o funcionário?')) {
                 $.ajax({
                     url: '/src/controller/funcionarioController.php?action=delete',
-
                     data: {
                         id: id,
                     },

@@ -143,36 +143,10 @@ switch ($action) {
             $mail->Subject = $assunto;
             $mail->AddEmbeddedImage(__ABS_DIR__ . '/assets/LogoBPLUS_Branca.png', 'BPlusLogo');
             ob_start();                      // start capturing output
-            include(__ABS_DIR__ . 'css/mensagem.php');   // execute the file
-            $cssContent = ob_get_contents();    // get the contents from the buffer
+            include(__ABS_DIR__ . 'src/view/mensagem.php');   // execute the file
+            $msgContent = ob_get_contents();    // get the contents from the buffer
             ob_end_clean();
-            $texto = '<head>
-            ' . $cssContent . '
-            
-        </head>
-        
-        <body>
-            <table id="MensagemHtml">
-                <div id="mensagemLayout">
-                    <div id="corpoMensagem">
-        
-                        ' . $mensagem . '
-
-
-                        <!-- FIXME: linha abaixo inserida apenas para teste -->
-                <p> ( EMAIL TESTE -> O email final iria para:' . $email . ' )</p>
-                    </div>
-        
-                    <div id="imgBPlus"><img src="cid:BPlusLogo" /></div>
-        
-                    <div id="assinatura">
-                        <p>' . __NOME_ASSINATURA__ . '</p>
-        
-                        <p>' . __EMAIL_ASSINATURA__ . ' | ' . __TELEFONE_ASSINATURA__ . '</p>
-                    </div>
-                </div>
-            </table>
-        </body>';
+            $texto = $msgContent;
             $mail->Body = $texto;
             $mail->AltBody = strip_tags($texto);
             // Assunto
@@ -198,13 +172,15 @@ switch ($action) {
 
                     $statusAttachment = $mail->AddAttachment(__ABS_DIR__ . __PATH_FILE__ . $strFile, $strFile);
                     if ($statusAttachment) {
-
                         $arrDelete[] = $strFile;
                     }
                 }
             }
 
             foreach ($_FILES as $key => $value) {
+                if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"))) {
+                    mkdir(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"));
+                }
                 if (isset($value['name'])) {
                     $statusAttachment =  $mail->AddAttachment($value['tmp_name'], $value['name']);
                     if (($statusAttachment) && (str_contains($key, 'arquivosGeral'))) {
@@ -221,9 +197,7 @@ switch ($action) {
                         if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
                             mkdir(__ABS_DIR__ . __PATH_FILE__ . $strPath);
                         }
-
                         copy($value['tmp_name'], __ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name']);
-
                         $arrDeleteErrorFunc[] = $strPath . '/' . $value['name'];
                     }
                 }
@@ -235,23 +209,29 @@ switch ($action) {
             $statusSendMail = $mail->send();
 
 
-            $msgResult = 'Email enviado com sucesso';
+            $msgResult = 'Email enviado com sucesso!';
 
             if (($statusSendMail) && (isset($arrDelete))) {
                 foreach ($arrDelete as $arq) {
-                    copy(__ABS_DIR__ . __PATH_FILE__ .  $arq, __ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $strFile);
-                    unlink(__ABS_DIR__ . __PATH_FILE__ .  $arq);
+                    $statusCopy = copy(__ABS_DIR__ . __PATH_FILE__ .  $arq, __ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $strFile);
+                    if ($statusCopy) {
+                        unlink(__ABS_DIR__ . __PATH_FILE__ .  $arq);
+                    }
                 }
             }
         } catch (Exception $e) {
-
-            $msgResult = 'Erro ao enviar email: ' . $mail->ErrorInfo;
-            if (isset($arrDeleteErrorFunc)) {
-                foreach ($arrDeleteErrorFunc as $arqF) {
-                    unlink(__ABS_DIR__ . __PATH_FILE__ . $arqF);
+            if (isset($statusSendMail) && $statusSendMail) {
+                $msgResult = 'Email enviado, mas foi encontrado um erro: ' . $mail->ErrorInfo;
+            } else {
+                $msgResult = 'O EMAIL NÃO FOI ENVIADO! ERRO: ' . $mail->ErrorInfo;
+                if (isset($arrDeleteErrorFunc)) {
+                    foreach ($arrDeleteErrorFunc as $arqF) {
+                        unlink(__ABS_DIR__ . __PATH_FILE__ . $arqF);
+                    }
                 }
             }
         }
+
 
         echo '<div>Destinatario: ' . $email . '<br>' . 'Assunto: ' . $assunto . '<br>' . $msgResult . '<br>Data/Hora: ' . date('d/m/Y H:i') . '</div><hr>';
 

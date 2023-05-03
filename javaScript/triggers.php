@@ -1,8 +1,6 @@
 <script>
     window.onload = (event) => {
-
         funcionariosJs.readEmployees();
-
     }
 
     function triggersEmployeesList() {
@@ -72,23 +70,25 @@
          * Create a new line at the top of the table to insert data of a new employee  
          */
         $(`#btn-inserirCampos`).on('click', function() {
-            const str = `<td></td>
+            if ($('#newNome').length == 0) {
+                const str = `<td></td>
 	    	<td><select name="newContrato" id="newContrato" ><option value="">Contrato</option><option value="PJ">PJ</option><option value="Estagio">Estagio</option><option value="CLT">CLT</option></select></td>
 	    	<td><input name="newNome" id="newNome" ></td>
 		    <td><input name="newEmail" id="newEmail" type="email" ></td>
 		    <td><button id="btnInsert" type="button" class="btnLow" title="SALVAR"><i class="fa-solid fa-floppy-disk"></i></button></td>
 		    <td><button id="btnCancel" type="button" class="btnLow" title="CANCELAR"><i class="fa-solid fa-xmark"></i></button></td>`;
-            const firstTr = $('tr')[1];
-            const tr = document.createElement('tr');
-            $(tr).html(str);
-            firstTr.before(tr);
+                const firstTr = $('tr')[1];
+                const tr = document.createElement('tr');
+                $(tr).html(str);
+                firstTr.before(tr);
 
-            $(`#btnCancel`).on('click', function() {
-                funcionariosJs.readEmployees()
-            });
-            $(`#btnInsert`).on('click', function() {
-                funcionariosJs.insertEmployee()
-            });
+                $(`#btnCancel`).on('click', function() {
+                    funcionariosJs.readEmployees()
+                });
+                $(`#btnInsert`).on('click', function() {
+                    funcionariosJs.insertEmployee()
+                });
+            }
         });
 
         /**
@@ -101,7 +101,6 @@
                 const nome = $('#valuesFunc_' + id).attr('data-nome');
                 const contrato = $('#valuesFunc_' + id).attr('data-contrato');
                 const email = $('#valuesFunc_' + id).attr('data-email');
-
                 const SelectPJ = contrato == 'PJ' ? 'selected' : '';
                 const SelectCLT = contrato == 'CLT' ? 'selected' : '';
                 const SelectEst = contrato == 'Estagio' ? 'selected' : '';
@@ -120,6 +119,7 @@
 
             });
         });
+
         /**
          * On click #btnDelete
          * Delete te clicked employee
@@ -135,7 +135,10 @@
 
 
     function triggersEmailsList() {
-        //TODO: doc aqui tbm
+        /**
+         * On click #submitPrevia
+         * Show a preview with the same data to send
+         */
         $(`#submitPrevia`).on('click', function(e) {
             $("[id='emailsData']").each(function() {
                 const id = $(this).attr('data-id');
@@ -144,28 +147,10 @@
                 emails.previa(id, fileList, nome);
             });
             $('#listaEmails').hide();
-
-
             $('#previa').show();
         });
 
-        $(`
-                    #submitEnviar`).on('click', function() {
-            if (confirm('Deseja enviar os emails?')) {
-                $('#spinner').show();
-                $('#body').hide();
-                $("[id='emailsData']").each(function() {
-                    const id = $(this).attr('data-id');
-                    const nome = $(this).attr('data-nome');
-                    const fileList = $(this).attr('data-listaArquivos');
-                    emails.enviar(id, fileList, nome);
-                });
-                $('#previa').hide();
-                $('#result').show();
-
-            }
-
-        });
+        triggerBtnEnviar();
 
         /**
          * On click #btnBackEmp
@@ -224,7 +209,10 @@
             })
         });
 
-        //TODO: adicionar documentação
+        /**
+         * On click #btnValidaTodos
+         * Call a function that show in every file on the folder and validate if the file contains the name and last name inside the pdf 
+         */
         $("#btnValidaTodos").on('click', function() {
             $('[id="ArquivoPdfPasta"]').each(function(btn) {
                 const id = $(this).attr('data-id');
@@ -237,37 +225,38 @@
             $('.validarTodos').hide();
         });
 
+        /**
+         * On click #arquivosGeral
+         * Call a function that controls the files uploaded
+         */
         $("#arquivosGeral").on('change', function() {
             btnAddAnexos(this, 'todos');
         });
 
-
-        $("[id='ArquivoPdfPasta']").each(function(btn) {
-            $(this).on("click", function() {
-                const FileName = $(this).attr('data-nomeArquivo');
-                viewPdf(`
-                    $ {
-                        FileName
-                    }
-                    <?= __EXT_FILE__ ?>`, '<?= __PATH_FILE__ ?>');
-            });
-        });
-
+        /**
+         * On click each #ArquivoPdfPasta
+         * Call a function that controls the files uploaded
+         */
         $("[id='arquivosLabel']").each(function(btn) {
             const id = $(this).attr('data-id');
             const nome = $(this).attr('data-nome');
-            $(`
-                    #arquivos${
-                        id
-                    }
-                    `).on('change', function(e) {
-                btnAddAnexos(e.target, `
-                    N${
-                        nome.replace(' ', '')
-                    }
-                    `);
+            $(`#arquivos${id}`).on('change', function(e) {
+                btnAddAnexos(e.target, `N${nome.replace(' ', '')}`);
             });
         });
+
+        /**
+         * On click each #ArquivoPdfPasta
+         * Call a function to open a modal and show the file
+         */
+        $("[id='ArquivoPdfPasta']").each(function(btn) {
+            $(this).on("click", function() {
+                const FileName = $(this).attr('data-nomeArquivo');
+                viewPdf(`${FileName}<?= __EXT_FILE__ ?>`, '<?= __PATH_FILE__ ?>');
+            });
+        });
+
+
 
 
     }
@@ -279,33 +268,23 @@
          */
         $("#btnBackEmail").on('click', function() {
             $('#listaEmails').show();
-            $('#previa').html(` < button id = "btnBackEmail"
-                    type = "button"
-                    class = "btnFixLeft"
-                    title = "VOLTAR" > < i class = "fa-solid fa-chevron-left" > < /i> <i class="fa-solid fa-envelope"></i > < /button> <
-                    i class = "fa-solid fa-eye icon-page" > < /i> <
-                    div class = "titulo" >
-                    <
-                    h2 > PRÉVIA EMAILS < /h2> <
-                    button id = "submitEnviar"
-                    type = "button"
-                    class = "btnFix"
-                    title = "ENVIAR" > < i class = "fa-solid fa-paper-plane" > < /i> <i class="fa-solid fa-chevron-right"></i > < /button> <
-                    /div> <
-                    /i>`);
+            $('#previa').html(`<button id="btnBackEmail" type="button" class="btnFixLeft" title="VOLTAR"><i class="fa-solid fa-chevron-left"></i> <i class="fa-solid fa-envelope"></i></button>
+            <i class="fa-solid fa-eye icon-page"></i>
+            <div class="titulo">
+                <h2>PRÉVIA EMAILS</h2>
+                <button id="submitEnviar" type="button" class="btnFix" title="ENVIAR"><i class="fa-solid fa-paper-plane"></i> <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>`);
             $('#previa').hide();
 
         });
-        //TODO:
+        triggerBtnEnviar();
 
     }
 
 
 
-    //----------------FUNÇÕES DE BOTÕES------------------
-
-
-
+    //---------------- Other Functions called by the triggers------------------
 
 
 
@@ -322,9 +301,10 @@
         }
     }
 
+
     var arrFiles = {};
     //array com arquivos Geral de todos os funcionários
-    /**
+    /**          
      * @param this input file 
      * Botão de adicionar anexos com visualização de nome do arquivo e com opção de deletar
      */
@@ -372,5 +352,52 @@
 
         });
 
+    }
+
+    /**
+     * On click #submitEnviar
+     * Call a function with the data and send all the emails
+     */
+    function triggerBtnEnviar() {
+        $(`#submitEnviar`).on('click', function() {
+            if (confirm('Deseja enviar os emails?')) {
+
+                function doBefore() {
+                    $('#spinner').show();
+                    $('#body').hide();
+                    if ($('#spinner').is(":visible") && $('#body').is(":hidden")) {
+                        setTimeout(callSync, 1000)
+                    } else {
+                        setTimeout(doBefore, 500)
+                    }
+                }
+
+                function sendMail(_callback) {
+                    $("[id='emailsData']").each(function() {
+                        const id = $(this).attr('data-id');
+                        const nome = $(this).attr('data-nome');
+                        const fileList = $(this).attr('data-listaArquivos');
+                        emails.enviar(id, fileList, nome, );
+                    });
+
+                    _callback();
+                }
+
+                function callSync() {
+                    sendMail(function() {
+                        $('#body').show();
+                        $('#spinner').hide();
+                        $('#previa').hide();
+                        $('#result').show();
+                    });
+                }
+                $("#submitEnviar").prop('disabled', true);
+                setTimeout(function() {
+                    $("#submitEnviar").prop('disabled', false);
+                }, 5000)
+                doBefore()
+
+            }
+        });
     }
 </script>

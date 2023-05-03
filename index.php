@@ -39,7 +39,6 @@
                 <h2>PRÉVIA EMAILS</h2>
                 <button id="submitEnviar" type="button" class="btnFix" title="ENVIAR"><i class="fa-solid fa-paper-plane"></i> <i class="fa-solid fa-chevron-right"></i></button>
             </div>
-
         </div>
         <div id="result" style="display: none;"><i class="fa-solid fa-paper-plane icon-page"></i>
             <div class="titulo">
