@@ -129,10 +129,11 @@ switch ($action) {
             $mail->Username   = __EMAIL_REMETENTE__;
             $mail->Password   = __EMAIL_SENHA__;
             // Criptografia do envio SSL também é aceito
-            $mail->SMTPSecure = 'tls';
+            $mail->SMTPDebug = 1;
+            //$mail->SMTPSecure = __SMTP_SECURE__;
             // Informações específicadas
-            $mail->Host = 'smtp-mail.outlook.com';
-            $mail->Port = 587;
+            $mail->Host = __HOST__;
+            $mail->Port = __PORT__;
             // Define o remetente                  
             $mail->setFrom(__EMAIL_REMETENTE__, __NOME_ASSINATURA__);
             // Define o destinatário
