@@ -246,7 +246,7 @@ h5 {
 }
 
 /* --------------------------TABLE */
-table {
+#tableFunc {
 	border-collapse: collapse;
 	border-radius: 5px;
 	overflow: hidden;
@@ -255,14 +255,14 @@ table {
 	margin: 0;
 	position: relative;
 }
-thead {
+#theadFunc {
 	height: 30px;
 	width: 100%;
 	display: table-header-group;
 	vertical-align: middle;
 	border-radius: 5px;
 }
-thead tr th {
+#theadFunc tr th {
 	padding: 15px auto;
 	background: var(--colorPrimary800);
 	color: white;
@@ -272,16 +272,16 @@ thead tr th {
 	padding-left: 20px;
 }
 
-table tbody tr td input {
+.trFunc td input {
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 	overflow: hidden;
 }
-table tbody tr td {
+.trFunc td {
 	padding-left: 20px;
 }
 
-table tbody tr {
+.trFunc {
 	border-bottom: 4px solid white;
 	height: 50px;
 	border-radius: 5px;

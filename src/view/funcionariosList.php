@@ -12,8 +12,8 @@
 
 <button type="button" id="btn-inserirCampos" class="btnLow" title="Novo funcionário"><i class="fa-solid fa-user-plus"></i></button>
 
-<table>
-    <thead>
+<table id="tableFunc">
+    <thead id="theadFunc">
         <tr>
             <th>Selecionar</th>
             <th style="width: 15%;">Contrato</th>
@@ -29,8 +29,8 @@
 
 
 
-        <?php while ($rows = odbc_fetch_object($result)) { ?>
-            <tr id="funcionario<?= $rows->Id ?>">
+        <?php while ($rows = mysqli_fetch_object($result)) { ?>
+            <tr id="funcionario<?= $rows->Id ?>" class="trFunc">
 
                 <td><label class="lblCheck"><input type="checkbox" value="<?= $rows->Id ?>" name="select" class="<?= $rows->Contrato ?>"><span class="checkmarkTb"></span></label></td>
                 <td><input name="contrato_<?= $rows->Id ?>" value="<?= $rows->Contrato ?>" style="margin-left:10px;" readonly></td>

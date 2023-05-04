@@ -12,22 +12,15 @@
 
     <!--JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
     <!--PDFJS -->
     <script src="/lib/pdfjs-dist/build/pdf.js"></script>
     <!--Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-
-
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 
-<link rel="stylesheet" type="text/css" href="/css/style.css" />
-
-
 <body>
-
     <div id="body">
         <!-- Conteudo -->
         <div id="listaFunc"></div>
@@ -47,7 +40,6 @@
             </div>
             <div id="resultPrint"></div>
         </div>
-
 
 
         <!-- Modal -->

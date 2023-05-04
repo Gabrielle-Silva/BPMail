@@ -73,7 +73,7 @@ if (!$result) { ?>
     <?php
 } else {
     //Cria um form para cada funcionário selecionado 
-    while ($rows = odbc_fetch_object($result)) { ?>
+    while ($rows = mysqli_fetch_object($result)) { ?>
         <form action="" method="post" id="FormEmail" class="<?= $rows->Id ?>" enctype="multipart/form-data">
             <input name="Nome" id="Nome" class="<?= $rows->Id ?>" value="<?= $rows->Nome ?>" readonly>
             <input name="Email" id="Email" class="<?= $rows->Id ?>" value="<?= $rows->Email ?>" readonly>

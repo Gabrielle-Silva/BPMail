@@ -1,5 +1,3 @@
-<!-- NOTE: Ao atualizar esta tela, apenas irá alterar a sessão de prévia do email. Para alterar a mensagem enviada no email deve-se modificar a variavel $texto em emailController > action sendEmail -->
-
 <head>
     <?php
     ob_start();                      // start capturing output
@@ -11,22 +9,45 @@
 
 </head>
 
-<body>
-    <div id="MensagemHtml">
-        <div id="mensagemLayout">
-            <div id="corpoMensagem">
+<body id="bodymensagem">
 
-                <?= $mensagem ?>
+    <table id="mensagemLayout">
+        <thead>
+            <tr id="corpoMensagem">
 
-            </div>
+                <td>
+                    <?= $mensagem ?>
+                </td>
 
-            <div id="imgBPlus"><img src="/assets/LogoBPLUS_Branca.png" alt="" /></div>
+            </tr>
+            <?php
+            if ($preview) {
+                echo '<tr id="imgLogo"><td><img src="/' . __REL_LOGO_PATH__  . '" alt="Logo" /></td></tr>';
+            } else {
+                echo '<tr id="imgLogo"><td><img src="cid:Logo" alt="Logo" /></td></tr>';
+            } ?>
+        </thead>
+        <tr class="linhaHr">
+            <td>
+                <hr>
+            </td>
+        </tr>
 
-            <div id="assinatura">
-                <p><?= __NOME_ASSINATURA__ ?></p>
+        <tbody id="assinatura">
+            <tr>
+                <td class="nomeAssinatura">
+                    <p><?= __NOME_ASSINATURA__ ?></p>
+                </td>
+            </tr>
 
-                <p><?= __EMAIL_ASSINATURA__ ?> | <?= __TELEFONE_ASSINATURA__ ?></p>
-            </div>
-        </div>
-    </div>
+            <tr>
+                <td class="contatoAssinatura">
+                    <p><?= __EMAIL_ASSINATURA__ ?> | <?= __TELEFONE_ASSINATURA__ ?></p>
+                </td>
+
+            </tr>
+        </tbody>
+
+    </table>
+
 </body>

@@ -165,7 +165,7 @@ class emailModel
         try {
             $sql = "SELECT * from funcionarios WHERE id IN ({$this->arrFunc})";
 
-            return odbc_exec($conn, $sql);
+            return mysqli_query($conn, $sql);
         } catch (\Throwable $th) {
         }
     }

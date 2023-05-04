@@ -150,7 +150,7 @@
             $('#previa').show();
         });
 
-        triggerBtnEnviar();
+        // triggerBtnEnviar();
 
         /**
          * On click #btnBackEmp

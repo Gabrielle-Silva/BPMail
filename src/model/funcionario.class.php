@@ -104,7 +104,7 @@ class funcionarioModel
         try {
             $sql = "DELETE from Funcionarios WHERE Id = {$this->id}";
 
-            if (odbc_exec($conn, $sql)) {
+            if (mysqli_query($conn, $sql)) {
                 return true;
             } else {
                 return false;
@@ -120,7 +120,7 @@ class funcionarioModel
         global $conn;
         try {
             $sql = "SELECT * from funcionarios ORDER BY Nome";
-            return odbc_exec($conn, $sql);
+            return mysqli_query($conn, $sql);
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -135,7 +135,7 @@ class funcionarioModel
         try {
             $sql = "INSERT INTO funcionarios (Contrato, Nome, Email) VALUES ('{$this->Contrato}','{$this->Nome}','{$this->Email}')";
 
-            if (odbc_exec($conn, $sql)) {
+            if (mysqli_query($conn, $sql)) {
                 return true;
             } else {
                 return false;
@@ -153,7 +153,7 @@ class funcionarioModel
         try {
             $sql = "UPDATE Funcionarios SET Contrato = '{$this->Contrato}', Nome ='{$this->Nome}', Email ='{$this->Email}' WHERE Id = {$this->id}";
 
-            if (odbc_exec($conn, $sql)) {
+            if (mysqli_query($conn, $sql)) {
                 return true;
             } else {
                 return false;

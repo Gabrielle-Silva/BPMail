@@ -1,5 +1,11 @@
 <style>
-	#mensagemLayout {
+	#bodymensagem {
+
+		text-align: center;
+	}
+
+	table {
+		text-align: center;
 		width: 500px;
 		min-height: 500px;
 		background-color: #0d0e1e;
@@ -15,47 +21,74 @@
 		margin: 5px;
 	}
 
+	tr {
+		border: none;
+	}
+
 	#corpoMensagem {
+		width: 500px;
 		min-height: 350px;
 		display: flex;
 		justify-content: center;
 		align-content: center;
 		flex-direction: column;
+		border: none;
+		margin-bottom: 20px;
+
 	}
 
-	#corpoMensagem p:first-child {
+	#corpoMensagem td p:first-child {
 		margin-bottom: 10%;
 	}
 
 	img {
 		width: 120px;
+		margin: 3px auto;
 	}
 
-	#imgBPlus {
+	#imgLogo {
+		text-align: center;
 		margin: 3px auto;
 		display: flex;
 		justify-content: center;
 		align-content: center;
-
 		padding: 2%;
+		border: none;
+	}
+
+	.linhaHr {
+		padding: 0;
+
 	}
 
 	#assinatura {
-		border-top: 1.5px solid #3c3d43;
+		display: grid;
+		text-align: center;
+		border: none;
+		width: 500px;
 		height: 8%;
 		padding: 1%;
 		font-size: 10px;
 	}
 
-	#assinatura p {
-		margin: 1px;
-		font-size: 10px;
-		color: rgba(255, 255, 255, 0.501);
+	#bodymensagem tbody tr {
+		border: none;
 	}
 
-	#assinatura p:first-child {
+
+
+	.contatoAssinatura {
+		display: inline-table;
+		padding: 0;
+		margin: 1px;
+		font-size: 10px;
+		color: rgb(200, 200, 200);
+	}
+
+	.nomeAssinatura {
+		padding: 0;
+		display: inline-table;
 		font-size: 15px;
-		padding: 7px;
 		color: rgb(255, 255, 255);
 	}
 </style>

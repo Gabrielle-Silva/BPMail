@@ -17,7 +17,6 @@ require(__ABS_DIR__ . '/lib/PHPMailer/src/SMTP.php');
 
 //instanciar objeto
 $objEmail = new emailModel();
-//$mail = new PHPMailer(true);
 
 
 //Colocando valores dos campos dentro do objeto
@@ -61,7 +60,7 @@ if (isset($_REQUEST['mensagem'])) {
 }
 
 
-$mail = new PHPMailer(true);
+
 
 $action = $_REQUEST['action'];
 switch ($action) {
@@ -97,7 +96,7 @@ switch ($action) {
 
     case 'preview':
 
-
+        $preview = true;
         $email;
         $nome;
         $assunto;
@@ -120,38 +119,40 @@ switch ($action) {
 
     case 'sendEmail':
         try {
-
+            $preview = false;
             $mail = new PHPMailer(true);
             $mail->CharSet = 'UTF-8';
             // Configurações do servidor
-            $mail->isSMTP();        //Devine o uso de SMTP no envio
-            $mail->SMTPAuth = true; //Habilita a autenticação SMTP
+            $mail->isSMTP();
+            $mail->SMTPAuth = true;
             $mail->Username   = __EMAIL_REMETENTE__;
             $mail->Password   = __EMAIL_SENHA__;
-            // Criptografia do envio SSL também é aceito
-            $mail->SMTPDebug = 1;
-            //$mail->SMTPSecure = __SMTP_SECURE__;
-            // Informações específicadas
+            $mail->SMTPSecure = __SMTP_SECURE__;
             $mail->Host = __HOST__;
             $mail->Port = __PORT__;
-            // Define o remetente                  
             $mail->setFrom(__EMAIL_REMETENTE__, __NOME_ASSINATURA__);
-            // Define o destinatário
+
+            //NOTE: retirar debug após funcionar
+            $mail->SMTPDebug = 2;
             //NOTE: ALTERAR PARA --- $mail->addAddress( $email;, $nome;) --- SOMENTE APÓS ESTAR FINALIZADO
             $mail->addAddress('magaligames@hotmail.com', $nome);
+
+
             // Conteúdo da mensagem
             $mail->isHTML(true);  // Seta o formato do e-mail para aceitar conteúdo HTML
-            $mail->Subject = $assunto;
-            $mail->AddEmbeddedImage(__ABS_DIR__ . '/assets/LogoBPLUS_Branca.png', 'BPlusLogo');
-            ob_start();                      // start capturing output
-            include(__ABS_DIR__ . 'src/view/mensagem.php');   // execute the file
-            $msgContent = ob_get_contents();    // get the contents from the buffer
+            $mail->AddEmbeddedImage(__ABS_DIR__ . __REL_LOGO_PATH__, 'Logo');
+            //Recupera conteudo do arquivo de mensagem para o corpo do email
+            ob_start();
+            include(__ABS_DIR__ . 'src/view/mensagem.php');
+            $msgContent = ob_get_contents();
             ob_end_clean();
+            print $msgContent;
             $texto = $msgContent;
             $mail->Body = $texto;
             $mail->AltBody = strip_tags($texto);
-            // Assunto
+            // Assunto e prioridade
             $mail->Subject = $assunto;
+            $mail->Priority = 1;
             // Cópias
             if ($copias) {
                 foreach (explode(";", str_replace(" ", "", $copias)) as $copia) {
@@ -159,10 +160,9 @@ switch ($action) {
                 }
             }
             //Anexos
-
             $arrDelete = [];
-            $arrDeleteErrorTodos = [];
             $arrDeleteErrorFunc = [];
+            //Arquivos recuperados da pasta
             if ($arquivosPasta != "") {
                 if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"))) {
                     mkdir(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"));
@@ -177,13 +177,14 @@ switch ($action) {
                     }
                 }
             }
-
+            //Arquivos de upload
             foreach ($_FILES as $key => $value) {
                 if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"))) {
                     mkdir(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"));
                 }
                 if (isset($value['name'])) {
                     $statusAttachment =  $mail->AddAttachment($value['tmp_name'], $value['name']);
+                    //Anexos gerais
                     if (($statusAttachment) && (str_contains($key, 'arquivosGeral'))) {
                         $strPath = 'Enviados' . date("d-m-Y") . '/.Geral';
                         if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
@@ -193,6 +194,7 @@ switch ($action) {
                             copy($value['tmp_name'], __ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name']);
                         }
                     }
+                    //Anexos individuais
                     if (($statusAttachment) && (str_contains($key, str_replace(' ', '-', $nome)))) {
                         $strPath = 'Enviados' . date("d-m-Y") . '/' . str_replace(' ', '-', $nome);
                         if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
@@ -204,12 +206,9 @@ switch ($action) {
                 }
             }
 
-            $mail->Priority = 1;
 
             // Enviar
             $statusSendMail = $mail->send();
-
-
             $msgResult = 'Email enviado com sucesso!';
 
             if (($statusSendMail) && (isset($arrDelete))) {
@@ -232,13 +231,8 @@ switch ($action) {
                 }
             }
         }
-
-
         echo '<div>Destinatario: ' . $email . '<br>' . 'Assunto: ' . $assunto . '<br>' . $msgResult . '<br>Data/Hora: ' . date('d/m/Y H:i') . '</div><hr>';
-
         break;
-
-
 
 
     default:
