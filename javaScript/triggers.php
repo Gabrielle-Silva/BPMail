@@ -18,8 +18,6 @@
             $('#listaFunc').hide();
             $('#listaEmails').show();
             emails.loadEmails(arr);
-
-
         });
 
         /**	      
@@ -278,7 +276,59 @@
             $('#previa').hide();
 
         });
-        triggerBtnEnviar();
+
+        function confirmSend() {
+            if (confirm('Deseja enviar os emails?')) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+        $(`#submitEnviar`).on('click', function(e) {
+            e.preventDefault();
+
+            function doBefore() {
+                $('#spinner').show();
+                $('#body').hide();
+                if ($('#spinner').is(":visible") && $('#body').is(":hidden")) {
+                    setTimeout(callSync, 1000)
+                } else {
+                    setTimeout(doBefore, 500)
+                }
+            }
+
+            function sendMail(_callback) {
+                $("[id='emailsData']").each(function() {
+                    const id = $(this).attr('data-id');
+                    const nome = $(this).attr('data-nome');
+                    const fileList = $(this).attr('data-listaArquivos');
+                    emails.enviar(id, fileList, nome, );
+                });
+
+                _callback();
+            }
+
+            function callSync() {
+                sendMail(function() {
+                    $('#body').show();
+                    $('#spinner').hide();
+                    $('#previa').hide();
+                    $('#result').show();
+                });
+            }
+            $("#submitEnviar").prop('disabled', true);
+            setTimeout(function() {
+                $("#submitEnviar").prop('disabled', false);
+            }, 5000)
+
+            if (confirmSend()) {
+                doBefore();
+            }
+
+
+        });
 
     }
 
@@ -359,45 +409,6 @@
      * Call a function with the data and send all the emails
      */
     function triggerBtnEnviar() {
-        $(`#submitEnviar`).on('click', function() {
-            if (confirm('Deseja enviar os emails?')) {
 
-                function doBefore() {
-                    $('#spinner').show();
-                    $('#body').hide();
-                    if ($('#spinner').is(":visible") && $('#body').is(":hidden")) {
-                        setTimeout(callSync, 1000)
-                    } else {
-                        setTimeout(doBefore, 500)
-                    }
-                }
-
-                function sendMail(_callback) {
-                    $("[id='emailsData']").each(function() {
-                        const id = $(this).attr('data-id');
-                        const nome = $(this).attr('data-nome');
-                        const fileList = $(this).attr('data-listaArquivos');
-                        emails.enviar(id, fileList, nome, );
-                    });
-
-                    _callback();
-                }
-
-                function callSync() {
-                    sendMail(function() {
-                        $('#body').show();
-                        $('#spinner').hide();
-                        $('#previa').hide();
-                        $('#result').show();
-                    });
-                }
-                $("#submitEnviar").prop('disabled', true);
-                setTimeout(function() {
-                    $("#submitEnviar").prop('disabled', false);
-                }, 5000)
-                doBefore()
-
-            }
-        });
     }
 </script>

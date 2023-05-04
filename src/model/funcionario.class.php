@@ -102,7 +102,7 @@ class funcionarioModel
 
         global $conn;
         try {
-            $sql = "DELETE from Funcionarios WHERE Id = {$this->id}";
+            $sql = "DELETE from funcionarios WHERE Id = {$this->id}";
 
             if (mysqli_query($conn, $sql)) {
                 return true;
@@ -151,7 +151,7 @@ class funcionarioModel
 
         global $conn;
         try {
-            $sql = "UPDATE Funcionarios SET Contrato = '{$this->Contrato}', Nome ='{$this->Nome}', Email ='{$this->Email}' WHERE Id = {$this->id}";
+            $sql = "UPDATE funcionarios SET Contrato = '{$this->Contrato}', Nome ='{$this->Nome}', Email ='{$this->Email}' WHERE Id = {$this->id}";
 
             if (mysqli_query($conn, $sql)) {
                 return true;
