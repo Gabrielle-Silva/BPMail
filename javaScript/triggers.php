@@ -148,8 +148,6 @@
             $('#previa').show();
         });
 
-        // triggerBtnEnviar();
-
         /**
          * On click #btnBackEmp
          * Empty and hide the section emails and shows the previous section od employees list
@@ -277,19 +275,24 @@
 
         });
 
-        function confirmSend() {
-            if (confirm('Deseja enviar os emails?')) {
-                return true;
-            } else {
-                return false;
-            }
-        }
 
 
+        /**
+         * On click #submitEnviar
+         * Call a function with the data and send all the emails
+         */
         $(`#submitEnviar`).on('click', function(e) {
             e.preventDefault();
 
-            function doBefore() {
+            const confirmSend = function() {
+                if (confirm('Deseja enviar os emails?')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            const doBefore = function() {
                 $('#spinner').show();
                 $('#body').hide();
                 if ($('#spinner').is(":visible") && $('#body').is(":hidden")) {
@@ -299,7 +302,7 @@
                 }
             }
 
-            function sendMail(_callback) {
+            const sendMail = function(_callback) {
                 $("[id='emailsData']").each(function() {
                     const id = $(this).attr('data-id');
                     const nome = $(this).attr('data-nome');
@@ -310,7 +313,7 @@
                 _callback();
             }
 
-            function callSync() {
+            const callSync = function() {
                 sendMail(function() {
                     $('#body').show();
                     $('#spinner').hide();
@@ -325,6 +328,8 @@
 
             if (confirmSend()) {
                 doBefore();
+            } else {
+                console.log('quem chamou?');
             }
 
 
@@ -401,14 +406,6 @@
             thisInputFile.files = arrFiles[identificador].files;
 
         });
-
-    }
-
-    /**
-     * On click #submitEnviar
-     * Call a function with the data and send all the emails
-     */
-    function triggerBtnEnviar() {
 
     }
 </script>

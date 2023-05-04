@@ -132,8 +132,8 @@ switch ($action) {
             $mail->Port = __PORT__;
             $mail->setFrom(__EMAIL_REMETENTE__, __NOME_ASSINATURA__);
 
-            //NOTE: retirar debug após funcionar
-            $mail->SMTPDebug = 2;
+
+            //$mail->SMTPDebug = 2;
             //NOTE: ALTERAR PARA --- $mail->addAddress( $email;, $nome;) --- SOMENTE APÓS ESTAR FINALIZADO
             $mail->addAddress('magaligames@hotmail.com', $nome);
 
@@ -146,7 +146,6 @@ switch ($action) {
             include(__ABS_DIR__ . 'src/view/mensagem.php');
             $msgContent = ob_get_contents();
             ob_end_clean();
-            print $msgContent;
             $texto = $msgContent;
             $mail->Body = $texto;
             $mail->AltBody = strip_tags($texto);
