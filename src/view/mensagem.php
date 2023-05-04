@@ -17,8 +17,9 @@
 
                 <td>
                     <?= $mensagem ?>
-                </td>
+                    &nbsp; </td>
 
+                &nbsp;
             </tr>
             <?php
             if ($preview) {
@@ -30,21 +31,31 @@
         <tr class="linhaHr">
             <td>
                 <hr>
+                &nbsp;
             </td>
+
+            &nbsp;
         </tr>
 
         <tbody id="assinatura">
             <tr>
                 <td class="nomeAssinatura">
                     <p><?= __NOME_ASSINATURA__ ?></p>
+                    &nbsp;
                 </td>
+
+                &nbsp;
             </tr>
 
             <tr>
                 <td class="contatoAssinatura">
                     <p><?= __EMAIL_ASSINATURA__ ?> | <?= __TELEFONE_ASSINATURA__ ?></p>
+
+                    &nbsp;
                 </td>
 
+
+                &nbsp;
             </tr>
         </tbody>
 

@@ -12,13 +12,14 @@
 		padding: 30px;
 		border: 20px solid rgb(238, 238, 238);
 		margin: 30px auto;
+
 	}
 
 	p {
 		color: white;
 		text-align: center;
 		font-family: sans-serif;
-		margin: 5px;
+		margin: 4px;
 	}
 
 	tr {
@@ -43,12 +44,12 @@
 
 	img {
 		width: 120px;
-		margin: 3px auto;
+		margin: 4px auto;
 	}
 
 	#imgLogo {
 		text-align: center;
-		margin: 3px auto;
+		margin: 4px auto;
 		display: flex;
 		justify-content: center;
 		align-content: center;
@@ -68,7 +69,7 @@
 		width: 500px;
 		height: 8%;
 		padding: 1%;
-		font-size: 10px;
+		font-size: 12px;
 	}
 
 	#bodymensagem tbody tr {
@@ -88,7 +89,7 @@
 	.nomeAssinatura {
 		padding: 0;
 		display: inline-table;
-		font-size: 15px;
+		font-size: 16px;
 		color: rgb(255, 255, 255);
 	}
 </style>
