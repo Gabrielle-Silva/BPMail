@@ -74,10 +74,13 @@
 </div>
 
 <!-- Scripts -->
-<?php include_once(__ABS_DIR__ . 'javaScript/emailJS.php'); ?>
-<?php include_once(__ABS_DIR__ . 'javaScript/funcionarioJs.php'); ?>
-<?php include_once(__ABS_DIR__ . 'javaScript/pdfJs.php'); ?>
-<?php include_once(__ABS_DIR__ . 'javaScript/triggers.php'); ?>
+<script>
+    <?php include_once(__ABS_DIR__ . 'javaScript/email.js'); ?>
+    <?php include_once(__ABS_DIR__ . 'javaScript/funcionario.js'); ?>
+    <?php include_once(__ABS_DIR__ . 'javaScript/pdfJs.js'); ?>
+    <?php include_once(__ABS_DIR__ . 'javaScript/triggers.js'); ?>
+</script>
+
 
 
 </html>
