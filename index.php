@@ -63,7 +63,10 @@
     </div>
 
 </body>
+<!-- alert status -->
+<div id="containerAlertStatus">
 
+</div>
 
 <!-- loading -->
 <div id="spinner" style="display: none;">

@@ -24,6 +24,11 @@ var funcionariosJs = {
 					action: 'delete',
 				},
 			}).done((dados) => {
+				let el = $(`${dados}`);
+				$('#containerAlertStatus').append(el);
+				setTimeout(() => {
+					el.remove();
+				}, 5000);
 				funcionariosJs.readEmployees();
 			});
 		}
@@ -44,6 +49,11 @@ var funcionariosJs = {
 				action: 'insert',
 			},
 		}).done((dados) => {
+			let el = $(`${dados}`);
+			$('#containerAlertStatus').append(el);
+			setTimeout(() => {
+				el.remove();
+			}, 5000);
 			funcionariosJs.readEmployees();
 		});
 	},
@@ -66,6 +76,11 @@ var funcionariosJs = {
 					action: 'edit',
 				},
 			}).done((dados) => {
+				let el = $(`${dados}`);
+				$('#containerAlertStatus').append(el);
+				setTimeout(() => {
+					el.remove();
+				}, 5000);
 				funcionariosJs.readEmployees();
 			});
 		}

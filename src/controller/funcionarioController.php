@@ -27,10 +27,10 @@ $action = $_REQUEST['action'];
 switch ($action) {
 
     case 'insert':
-        if ($objFuncionario->createFuncionario() === true) {
-            $msgResultPositive = 'Funcionário adicionado com sucesso';
+        if ($objFuncionario->createFuncionario()) {
+            $msgResultPositive = 'Funcionário adicionado';
         } else {
-            $msgResultNegative = 'Erro: não foi possivel inserir o funcionario';
+            $msgResultNegative = 'Não foi possivel inserir o funcionario';
         }
         require_once(__ABS_DIR__ . 'src/view/statusMessage.php');
 
@@ -43,21 +43,23 @@ switch ($action) {
         break;
 
     case 'edit':
-        if ($objFuncionario->updateFuncionario() === true) {
-            $msgResultPositive = 'Dados alterados com sucesso';
+        if ($objFuncionario->updateFuncionario()) {
+            $msgResultPositive = 'Dados do funcionário alterados';
         } else {
-            $msgResultNegative = 'Erro: Não foi possivel alterar os dados';
+            $msgResultNegative = 'Não foi possivel alterar os dados';
         }
+        require_once(__ABS_DIR__ . 'src/view/statusMessage.php');
 
         break;
 
 
     case 'delete':
-        if ($objFuncionario->deleteFuncionario() === true) {
-            $msgResultPositive = 'Dados de funcionário excluidos com sucesso';
+        if ($objFuncionario->deleteFuncionario()) {
+            $msgResultPositive = 'Dados do funcionário excluidos';
         } else {
-            $msgResultNegative = 'Erro: Não foi possivel excluir o funcionário';
+            $msgResultNegative = 'sNão foi possivel excluir o funcionário';
         }
+        require_once(__ABS_DIR__ . 'src/view/statusMessage.php');
 
         break;
 

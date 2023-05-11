@@ -649,3 +649,36 @@ label.previa {
 		transform: rotate(360deg);
 	}
 }
+
+/* ------alert status */
+#containerAlertStatus {
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 100;
+	box-sizing: border-box;
+	display: block;
+	width: 250px;
+	margin: 5px;
+}
+
+.alert {
+	margin-bottom: 0.75rem;
+	color: white;
+	padding: 10px;
+	margin: 0;
+	margin-bottom: 15px;
+}
+
+.alert-heading {
+	text-align: center;
+	font-weight: 800;
+}
+
+.alert-error {
+	background-color: #7c2e2e9a;
+}
+
+.alert-success {
+	background-color: #2e7c5d96;
+}
