@@ -23,13 +23,14 @@ var emails = {
 
 	/**
 	 * @param Object: strJson
-	 * @param int: id
 	 * @param int: currentPage
 	 * @param int: totalPages
+	 * @param boolean: firstItem - First item call
+	 * @param boolean: lastItem - Last item call
 	 * Get data about file validate
 	 * @returns php file 'validacao.php' to append in respective filename class
 	 */
-	validarPdf: (strJson, id, doc, currentPage, totalPages) => {
+	validarPdf: (strJson, doc, currentPage, totalPages, lastItem) => {
 		$.ajax({
 			url: '/src/controller/emailController.php',
 			data: {
@@ -43,6 +44,11 @@ var emails = {
 			$(`.paginas.${doc.replace(/\.| /g, '')}`).html(
 				`${totalPages}<span>Paginas</span>`
 			);
+			if (lastItem) {
+				//loader hide when return the last item
+				$('#spinner').hide();
+				$('.loader').removeClass('darkloader');
+			}
 		});
 	},
 

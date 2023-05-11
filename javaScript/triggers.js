@@ -225,19 +225,16 @@ function triggersEmailsList() {
 	$('#btnValidaTodos').on('click', () => {
 		$('.loader').addClass('darkloader');
 		$('#spinner').show();
-		var i = 0;
-		var totalItems = $('[id="ArquivoPdfPasta"]').length;
-		$('[id="ArquivoPdfPasta"]').each(function (btn) {
-			const id = $(this).attr('data-id');
+		$('[id="ArquivoPdfPasta"]').each(function (i, e) {
 			const firstName = $(this).attr('data-nome');
 			const lastName = $(this).attr('data-sobrenome');
 			const FileName = $(this).attr('data-nomeArquivo');
-			chamaValidar(FileName, firstName, lastName, id);
-			if (i === totalItems - 1) {
-				$('#spinner').hide();
-				$('.loader').removeClass('darkloader');
+			//set the last item sent
+			if (i == $('[id="ArquivoPdfPasta"]').length - 1) {
+				chamaValidar(FileName, firstName, lastName, true);
+			} else {
+				chamaValidar(FileName, firstName, lastName, false);
 			}
-			i++;
 		});
 		$('[id="oblvalidar"]').show();
 		$('.validarTodos').hide();
@@ -314,7 +311,6 @@ function triggersPrevia() {
 			};
 
 			const sendMail = (_callback) => {
-				var totalItems = $('[id="emailsData"]').length;
 				$("[id='emailsData']").each(function (i, e) {
 					const id = $(this).attr('data-id');
 					const nome = $(this).attr('data-nome');
@@ -322,12 +318,11 @@ function triggersPrevia() {
 					//order sent: first and last
 					if (i == 0) {
 						emails.enviar(id, fileList, nome, true, false);
-					} else if (i == totalItems - 1) {
+					} else if (i == $('[id="emailsData"]').length - 1) {
 						emails.enviar(id, fileList, nome, false, true);
 					} else {
 						emails.enviar(id, fileList, nome, false, false);
 					}
-					i++;
 				});
 
 				_callback();

@@ -142,6 +142,8 @@ function viewPdf(nomeArquivo, path) {
  * @param string: nome
  * @param string: sobrenome
  * @param int: id
+ * @param boolean: firstItem - First item call
+ * @param boolean: lastItem - Last item call
  *
  * Find files inside the path folder, read content and turn into array
  * Verify if contains in this array the name (nome) and last name (sobrenome)
@@ -149,10 +151,9 @@ function viewPdf(nomeArquivo, path) {
  * call method -> emails.validarPdf(obj: {PageNumber:{nome: boolean, sobrenome: boolean}}, int: id, string: nomeArquivo, num: CurrentPgage, num: totalPgs)
  *
  */
-function chamaValidar(nomeArquivo, nome, sobrenome, id) {
+function chamaValidar(nomeArquivo, nome, sobrenome, lastItem) {
 	var PDF_URL =
 		'<?= __PATH_FILE__ ?>' + decodeURI(nomeArquivo) + '<?= __EXT_FILE__ ?>';
-	let objResult = {};
 
 	pdfjsLib.GlobalWorkerOptions.workerSrc =
 		'./lib/pdfjs-dist/build/pdf.worker.js';
@@ -210,10 +211,10 @@ function chamaValidar(nomeArquivo, nome, sobrenome, id) {
 								[i]: objPaginas,
 							}
 						),
-						id,
 						nomeArquivo,
 						i,
-						totalPgs
+						totalPgs,
+						lastItem
 					);
 				});
 			});
