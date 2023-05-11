@@ -6,6 +6,11 @@
     <h2>CONFIGURAÇÕES GERAIS</h2>
 </div>
 <button type="button" id="btn-reload" class="btnLow" title="RECARREGAR"><i class="fa-solid fa-rotate-right"></i></button>
+<div class="sessao validarTodos">
+    <button type="button" id="btnValidaTodos">VALIDAR TODOS ARQUIVOS AUTOMATICOS</button>
+    <P class="instrucoes">Valida todos os documentos incluidos automaticamente através da pasta "Arquivos"</P>
+    <P class="instrucoes">Primeiramente confira se todos os arquivos estão corretos. Caso precise altera-los na pasta, clique no botão acima para recarregar. Se os arquivos na pasta estiverem corretos, valide-os e insira as demais informações dos emails</P>
+</div>
 <div class="h4">
     <h4>Mensagem</h4>
 </div>
@@ -38,7 +43,7 @@
             <h4>Cópias</h4>
         </div>
         <input type="text" name="copias" id="copias" value="">
-        <P class="instrucoes">Insira aqui emails que deseja adicionar como cópia separando-os com ";"</P>
+        <P class="instrucoes">Insira aqui emails que deseja adicionar como cópia, separando-os com ";"</P>
     </div>
     <div class="sessao">
         <div class="h4">
@@ -56,10 +61,7 @@
 
 
 </form>
-<div class="sessao validarTodos">
-    <button type="button" id="btnValidaTodos">VALIDAR TODOS ARQUIVOS AUTOMATICOS</button>
-    <P class="instrucoes">Valida todos os documentos incluidos automaticamente através da pasta "Arquivos"</P>
-</div>
+
 <hr>
 <div class="titulo">
     <h2>CONFIGURAÇÕES INDIVIDUAIS</h2>
@@ -90,19 +92,23 @@ if (!$result) { ?>
                 //Divide nome e sobrenome
                 $primeiroNome = explode(" ", $rows->Nome)[0];
                 $sobrenome = explode(" ", $rows->Nome)[1];
+                //retira acentos e deixa maiuculo para melhor comparação de valores
+                $fisrtNameNormalized = strtoupper($transliterator->transliterate($primeiroNome));
+                $lastNameNormalized = strtoupper($transliterator->transliterate($sobrenome));
                 //Cria um array para colocar nomes dos pdfs encontrados na pasta de arquivos
                 $Files = [];
 
                 foreach ($filesName as $fileName) {
 
-                    // Para cada documento encontrado, verifica se há Nome e Sobrenome do funcionário no nome do arquivo - Se sim, insere o nome no array $Files[] para ser enviado
-                    if ((str_contains(strtoupper($fileName), strtoupper($primeiroNome))) && (str_contains(strtoupper($fileName), strtoupper($sobrenome)))) {
+                    // Para cada documento encontrado, verifica se há Nome e Sobrenome do funcionário no nome do arquivo - Se sim, insere em html e nome no array $Files[] para ser enviado
+                    $fileNameNormalized = strtoupper($transliterator->transliterate($fileName));
+                    if ((str_contains($fileNameNormalized, $fisrtNameNormalized)) && (str_contains($fileNameNormalized, $lastNameNormalized))) {
                 ?>
                         <div id="ArquivoPdfPasta" class="<?= $rows->Id ?> <?= str_replace(' ', '', $fileName) ?> sessao" data-id="<?= $rows->Id ?>" data-nomeArquivo="<?= $fileName ?>" data-nome="<?= $primeiroNome ?>" data-sobrenome="<?= $sobrenome ?>">
                             <div class="nomeArquivo"> <?= $fileName ?>.pdf </div>
                             <div id="oblvalidar" style="display: none;">
-                                <div class="paginas <?= str_replace(' ', '', $fileName) ?>">?<span>Paginas</span></div>
-                                <div class="conteudopg <?= str_replace(' ', '', $fileName) ?>"></div>
+                                <div class="paginas <?= str_replace([' ', '.'], '', $fileName) ?>">?<span>Paginas</span></div>
+                                <div class="conteudopg <?= str_replace([' ', '.'], '', $fileName) ?>"></div>
                             </div>
                         </div>
 

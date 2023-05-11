@@ -2,10 +2,10 @@ var funcionariosJs = {
 	/**
 	 * @returns php file 'funcionariosList.php' with all data from DB
 	 */
-	readEmployees: function () {
+	readEmployees: () => {
 		$.ajax({
 			url: '/src/controller/funcionarioController.php?action=read',
-		}).done(function (dados) {
+		}).done((dados) => {
 			$('#listaFunc').html(dados);
 			triggersEmployeesList();
 		});
@@ -15,14 +15,15 @@ var funcionariosJs = {
 	 * @param int: id
 	 * Delete row on DB with informed id
 	 */
-	deleteEmployee: function (id) {
+	deleteEmployee: (id) => {
 		if (confirm('Deseja excluir o funcionário?')) {
 			$.ajax({
-				url: '/src/controller/funcionarioController.php?action=delete',
+				url: '/src/controller/funcionarioController.php?',
 				data: {
 					id: id,
+					action: 'delete',
 				},
-			}).done(function (dados) {
+			}).done((dados) => {
 				funcionariosJs.readEmployees();
 			});
 		}
@@ -33,15 +34,16 @@ var funcionariosJs = {
 	 * @returns updated php file 'funcionariosList.php'
 	 *
 	 */
-	insertEmployee: function () {
+	insertEmployee: () => {
 		$.ajax({
-			url: '/src/controller/funcionarioController.php?action=insert',
+			url: '/src/controller/funcionarioController.php?',
 			data: {
 				Contrato: document.getElementById('newContrato').value,
 				Nome: document.getElementById('newNome').value,
 				Email: document.getElementById('newEmail').value,
+				action: 'insert',
 			},
-		}).done(function (dados) {
+		}).done((dados) => {
 			funcionariosJs.readEmployees();
 		});
 	},
@@ -51,18 +53,19 @@ var funcionariosJs = {
 	 * Update row on DB with informed id
 	 * @returns updated php file 'funcionariosList.php'
 	 */
-	updateEmployee: function (id) {
+	updateEmployee: (id) => {
 		if (confirm('Deseja editar o funcionário?')) {
 			$.ajax({
-				url: '/src/controller/funcionarioController.php?action=edit',
+				url: '/src/controller/funcionarioController.php?',
 
 				data: {
 					id: id,
 					Contrato: document.getElementById('contrato' + id).value,
 					Nome: document.getElementById('nome' + id).value,
 					Email: document.getElementById('email' + id).value,
+					action: 'edit',
 				},
-			}).done(function (dados) {
+			}).done((dados) => {
 				funcionariosJs.readEmployees();
 			});
 		}

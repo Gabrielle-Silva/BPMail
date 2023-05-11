@@ -625,7 +625,14 @@ label.previa {
 	display: inline-block;
 	box-sizing: border-box;
 	animation: rotation 1s linear infinite;
+	position: fixed;
+	z-index: 10;
 }
+.darkloader {
+	border: 25px solid #353963;
+	border-bottom-color: transparent;
+}
+
 #spinner {
 	text-align: center;
 	width: 99%;

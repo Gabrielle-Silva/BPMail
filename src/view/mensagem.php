@@ -1,3 +1,5 @@
+<!-- CORPO DO EMAIL A SER ENVIADO. NOTE: há uma diferença na visualização entre outlook office e navegador/mobile ou outros metodos, portanto deve-se haver cautela ao alterar os estilos da mensagem-->
+
 <head>
     <style>
         td {

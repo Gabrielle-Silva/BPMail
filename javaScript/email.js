@@ -4,15 +4,16 @@ var emails = {
 	 * Get data from DB of each informed id
 	 * @returns php file 'emailsList.php'
 	 */
-	loadEmails: function (arr) {
+	loadEmails: (arr) => {
 		$('#spinner').show();
 		$('#body').hide();
 		$.ajax({
-			url: '/src/controller/emailController.php?action=read',
+			url: '/src/controller/emailController.php?',
 			data: {
 				arrFunc: arr.join(', '),
+				action: 'read',
 			},
-		}).done(function (dados) {
+		}).done((dados) => {
 			$('#body').show();
 			$('#spinner').hide();
 			$('#listaEmails').html(dados);
@@ -28,17 +29,18 @@ var emails = {
 	 * Get data about file validate
 	 * @returns php file 'validacao.php' to append in respective filename class
 	 */
-	validarPdf: function (strJson, id, doc, currentPage, totalPages) {
+	validarPdf: (strJson, id, doc, currentPage, totalPages) => {
 		$.ajax({
 			url: '/src/controller/emailController.php',
 			data: {
 				objValidar: JSON.stringify(strJson),
 				action: 'validate',
 				currentPage: currentPage,
+				async: true,
 			},
-		}).done(function (dados) {
-			$(`.conteudopg.${doc.replace(/ /g, '')}`).append(dados);
-			$(`.paginas.${doc.replace(/ /g, '')}`).html(
+		}).done((dados) => {
+			$(`.conteudopg.${doc.replace(/\.| /g, '')}`).append(dados);
+			$(`.paginas.${doc.replace(/\.| /g, '')}`).html(
 				`${totalPages}<span>Paginas</span>`
 			);
 		});
@@ -50,7 +52,7 @@ var emails = {
 	 * @param string: nome
 	 * @returns php file 'previa.php' with a preview of each email to send
 	 */
-	previa: function (id, arrArquivosPasta, nome) {
+	previa: (id, arrArquivosPasta, nome) => {
 		$.ajax({
 			url: `/src/controller/emailController.php?action=preview`,
 			data: funcFormDatation(id, arrArquivosPasta, nome),
@@ -58,7 +60,7 @@ var emails = {
 			cache: false,
 			contentType: false,
 			processData: false,
-		}).done(function (dados) {
+		}).done((dados) => {
 			$('#previa').append(dados);
 		});
 	},
@@ -67,9 +69,11 @@ var emails = {
 	 * @param int: id
 	 * @param array: arrArquivosPasta
 	 * @param string: nome
+	 * @param boolean: firstItem - First item call
+	 * @param boolean: lastItem - Last item call
 	 * @returns php file 'result.php' with the sent emails status
 	 */
-	enviar: function (id, arrArquivosPasta, nome) {
+	enviar: (id, arrArquivosPasta, nome, firstItem, lastItem) => {
 		$.ajax({
 			url: `/src/controller/emailController.php?action=sendEmail`,
 			data: funcFormDatation(id, arrArquivosPasta, nome),
@@ -77,9 +81,19 @@ var emails = {
 			cache: false,
 			contentType: false,
 			processData: false,
-			async: false,
-		}).done(function (dados) {
+			async: true,
+		}).done((dados) => {
 			$('#resultPrint').append(dados);
+			if (firstItem) {
+				//loader show when start returning
+				$('.loader').addClass('darkloader');
+				$('#spinner').show();
+			}
+			if (lastItem) {
+				//loader hide when return the last item
+				$('#spinner').hide();
+				$('.loader').removeClass('darkloader');
+			}
 		});
 	},
 };

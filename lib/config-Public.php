@@ -1,13 +1,14 @@
 <?php
+//##IMPORTANT NOTE: after set name of this file to 'config.php' only
 
 /**
  * Path settings
  */
-//Relative path to folder with the files with employees names
+//Relative path to files folder containinng employees names (it will attach automatically to employee every PDF file in this folder if match name and last name)
 define('__PATH_FILE__', 'arquivos/');
-//Extension pf the files folder above
+//Extension pdf for files folder above - DO NOT CHANGE THIS SETTING
 define('__EXT_FILE__', '.pdf');
-//path until aplication
+//Absolute path until aplication - IT IS NOT RECOMMENDED TO ALTER
 define('__ABS_DIR__', $_SERVER['DOCUMENT_ROOT'] . '/');
 
 
@@ -28,11 +29,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $conn->set_charset('utf8');
-
-//NOTE: ODBC Connection: replace all 'mysqli_query' for 'mysqli_query' / replace all 'mysqli_fetch_object' for 'odbc_fetch_object'
-//define('__ODBCName__', '');
-//$conn = odbc_connect(__ODBCName__, '', '');
-
+//NOTE: for ODBC Connection: replace in files all 'mysqli_query' for 'mysqli_query' / replace all 'mysqli_fetch_object' for 'odbc_fetch_object'
+//define('__ODBCName__', ''); //set the name ODBC
+//$conn = odbc_connect(__ODBCName__, '', ''); //if there isn't user and password leave empty parameters
 
 
 

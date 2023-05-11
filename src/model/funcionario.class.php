@@ -94,15 +94,14 @@ class funcionarioModel
         return $this;
     }
 
+    //METHODS - CRUD
 
-
-
-    public function deleteFuncionario()
+    public function createFuncionario()
     {
 
         global $conn;
         try {
-            $sql = "DELETE from funcionarios WHERE Id = {$this->id}";
+            $sql = "INSERT INTO funcionarios (Contrato, Nome, Email) VALUES ('{$this->Contrato}','{$this->Nome}','{$this->Email}')";
 
             if (mysqli_query($conn, $sql)) {
                 return true;
@@ -127,13 +126,12 @@ class funcionarioModel
     }
 
 
-
-    public function createFuncionario()
+    public function updateFuncionario()
     {
 
         global $conn;
         try {
-            $sql = "INSERT INTO funcionarios (Contrato, Nome, Email) VALUES ('{$this->Contrato}','{$this->Nome}','{$this->Email}')";
+            $sql = "UPDATE funcionarios SET Contrato = '{$this->Contrato}', Nome ='{$this->Nome}', Email ='{$this->Email}' WHERE Id = {$this->id}";
 
             if (mysqli_query($conn, $sql)) {
                 return true;
@@ -145,13 +143,12 @@ class funcionarioModel
         }
     }
 
-
-    public function updateFuncionario()
+    public function deleteFuncionario()
     {
 
         global $conn;
         try {
-            $sql = "UPDATE funcionarios SET Contrato = '{$this->Contrato}', Nome ='{$this->Nome}', Email ='{$this->Email}' WHERE Id = {$this->id}";
+            $sql = "DELETE from funcionarios WHERE Id = {$this->id}";
 
             if (mysqli_query($conn, $sql)) {
                 return true;

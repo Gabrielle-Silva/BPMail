@@ -3,3 +3,4 @@
 
     <h2>RESULTADO EMAILS ENVIADOS</h2>
 </div>
+<!-- Serão inseridos abaixo os status de envio -->

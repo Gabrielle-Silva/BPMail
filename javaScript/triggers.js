@@ -2,6 +2,9 @@ window.onload = () => {
 	funcionariosJs.readEmployees();
 };
 
+/**
+ * call triggers when the EmployeesList are load
+ */
 function triggersEmployeesList() {
 	/**
 	 * On click #btnProximo
@@ -9,7 +12,7 @@ function triggersEmployeesList() {
 	 * Hide the select section of employees and shows the emails settings
 	 * Calls the function emails.loadEmails() passing the created array as param
 	 */
-	$(`#btnProximo`).on('click', function () {
+	$(`#btnProximo`).on('click', () => {
 		var arr = [];
 		$.each($("input[name='select']:checked"), function () {
 			arr.push($(this).val());
@@ -23,7 +26,7 @@ function triggersEmployeesList() {
 	 * @param event - on click input type checkbox #selectall
 	 * Set the same property (checked or not) of element target for every element that has the name 'select'
 	 */
-	$('#selectall').on('click', function (e) {
+	$('#selectall').on('click', (e) => {
 		checkboxes = $("[name='select']");
 		for (var i = 0, n = checkboxes.length; i < n; i++) {
 			checkboxes[i].checked = e.target.checked;
@@ -33,7 +36,7 @@ function triggersEmployeesList() {
 	 * @param event - click input type checkbox #selecPJ
 	 * Set the same property (checked or not) of element target for each element that contains the class 'CLT'
 	 */
-	$('#selecPJ').on('click', function (e) {
+	$('#selecPJ').on('click', (e) => {
 		checkboxes = $('.PJ');
 		for (var i = 0, n = checkboxes.length; i < n; i++) {
 			checkboxes[i].checked = e.target.checked;
@@ -43,7 +46,7 @@ function triggersEmployeesList() {
 	 * @param event - click input type checkbox #selectCLT
 	 * Set the same property (checked or not) of element target for each element that contains the class 'PJ'
 	 */
-	$('#selectCLT').on('click', function (e) {
+	$('#selectCLT').on('click', (e) => {
 		checkboxes = $('.CLT');
 		for (var i = 0, n = checkboxes.length; i < n; i++) {
 			checkboxes[i].checked = e.target.checked;
@@ -53,7 +56,7 @@ function triggersEmployeesList() {
 	 * @param event - click input type checkbox #selectEstagio
 	 * Set the same property (checked or not) of element target for each element that contains the class 'Estagio'
 	 */
-	$('#selectEstagio').on('click', function (e) {
+	$('#selectEstagio').on('click', (e) => {
 		checkboxes = $('.Estagio');
 		for (var i = 0, n = checkboxes.length; i < n; i++) {
 			checkboxes[i].checked = e.target.checked;
@@ -64,7 +67,7 @@ function triggersEmployeesList() {
 	 * On click #btn-inserirCampos
 	 * Creates a new line at the top of the table to enter data about a new employee
 	 */
-	$(`#btn-inserirCampos`).on('click', function () {
+	$(`#btn-inserirCampos`).on('click', () => {
 		if ($('#newNome').length == 0) {
 			const str = `<td></td>
 	    	<td><select name="newContrato" id="newContrato" ><option value="">Contrato</option><option value="PJ">PJ</option><option value="Estagio">Estagio</option><option value="CLT">CLT</option></select></td>
@@ -77,10 +80,10 @@ function triggersEmployeesList() {
 			$(tr).html(str);
 			firstTr.before(tr);
 
-			$(`#btnCancel`).on('click', function () {
+			$(`#btnCancel`).on('click', () => {
 				funcionariosJs.readEmployees();
 			});
-			$(`#btnInsert`).on('click', function () {
+			$(`#btnInsert`).on('click', () => {
 				funcionariosJs.insertEmployee();
 			});
 		}
@@ -107,10 +110,10 @@ function triggersEmployeesList() {
 	    	    <td><button id="btnUpdate" data-id="${id}" type="button" class="btnLow" title="SALVAR"><i class="fa-solid fa-floppy-disk"></i></button></td>
 	        	<td><button id="btnCancel"  type="button" class="btnLow" title="CANCELAR"><i class="fa-solid fa-xmark"></i></button></td>`);
 
-			$(`#btnUpdate`).on('click', function () {
+			$(`#btnUpdate`).on('click', () => {
 				funcionariosJs.updateEmployee(id);
 			});
-			$(`#btnCancel`).on('click', function () {
+			$(`#btnCancel`).on('click', () => {
 				funcionariosJs.readEmployees();
 			});
 		});
@@ -128,12 +131,15 @@ function triggersEmployeesList() {
 	});
 }
 
+/**
+ * call triggers when the EmailsList are load
+ */
 function triggersEmailsList() {
 	/**
 	 * On click #submitPrevia
 	 * Show a preview with the same data that will be send
 	 */
-	$(`#submitPrevia`).on('click', function (e) {
+	$(`#submitPrevia`).on('click', (e) => {
 		$("[id='emailsData']").each(function () {
 			const id = $(this).attr('data-id');
 			const nome = $(this).attr('data-nome');
@@ -149,7 +155,7 @@ function triggersEmailsList() {
 	 * On click #btnBackEmp
 	 * Empty and hide the section emails and shows the previous employees list section
 	 */
-	$('#btnBackEmp').on('click', function () {
+	$('#btnBackEmp').on('click', () => {
 		$('#listaFunc').show();
 		$('#listaEmails').html('');
 		$('#listaEmails').hide();
@@ -160,7 +166,7 @@ function triggersEmailsList() {
 	 * On click #btn-reload
 	 * Reload the settings emails page
 	 */
-	$('#btn-reload').on('click', function () {
+	$('#btn-reload').on('click', () => {
 		var arr = [];
 		$.each($("input[name='select']:checked"), function () {
 			arr.push($(this).val());
@@ -172,7 +178,7 @@ function triggersEmailsList() {
 	 * On click #btnSwitch
 	 * Toggle class on the #saudacao input changing the order in the result
 	 */
-	$('#btnSwitch').on('click', function () {
+	$('#btnSwitch').on('click', () => {
 		$('#saudacao').toggleClass('first');
 		viewSaudacao();
 	});
@@ -186,7 +192,7 @@ function triggersEmailsList() {
 	 * On click #limpaTodos
 	 * Set empty values for all the emails inputs on each employee
 	 */
-	$('#limpaTodos').on('click', function () {
+	$('#limpaTodos').on('click', () => {
 		$('[id="mensagem"]').val('');
 	});
 
@@ -194,7 +200,7 @@ function triggersEmailsList() {
 	 * On click #aplicaTodos
 	 * Set the values for every employee email with the value #resultSaudacao(replacing "**Nome**" by the respective employee), input #mansagemGeral and #assuntoGeral
 	 */
-	$('#aplicaTodos').on('click', function () {
+	$('#aplicaTodos').on('click', () => {
 		$('[id="FormEmail"]').each(function () {
 			$(this)
 				.children('#mensagem')
@@ -216,13 +222,22 @@ function triggersEmailsList() {
 	 * On click #btnValidaTodos
 	 * Call a function that shows the validation if each file in folder contains the name and last name inside the content
 	 */
-	$('#btnValidaTodos').on('click', function () {
+	$('#btnValidaTodos').on('click', () => {
+		$('.loader').addClass('darkloader');
+		$('#spinner').show();
+		var i = 0;
+		var totalItems = $('[id="ArquivoPdfPasta"]').length;
 		$('[id="ArquivoPdfPasta"]').each(function (btn) {
 			const id = $(this).attr('data-id');
 			const firstName = $(this).attr('data-nome');
 			const lastName = $(this).attr('data-sobrenome');
 			const FileName = $(this).attr('data-nomeArquivo');
 			chamaValidar(FileName, firstName, lastName, id);
+			if (i === totalItems - 1) {
+				$('#spinner').hide();
+				$('.loader').removeClass('darkloader');
+			}
+			i++;
 		});
 		$('[id="oblvalidar"]').show();
 		$('.validarTodos').hide();
@@ -243,7 +258,7 @@ function triggersEmailsList() {
 	$("[id='arquivosLabel']").each(function (btn) {
 		const id = $(this).attr('data-id');
 		const nome = $(this).attr('data-nome');
-		$(`#arquivos${id}`).on('change', function (e) {
+		$(`#arquivos${id}`).on('change', (e) => {
 			btnAddAnexos(e.target, `N${nome.replace(' ', '')}`);
 		});
 	});
@@ -260,16 +275,18 @@ function triggersEmailsList() {
 	});
 }
 
+/**
+ * call triggers when the previa (preview) are load
+ */
 function triggersPrevia() {
 	/**
 	 * On click #btnBackEmail
 	 * Empty and hide the section preview and shows the previous email settings section
 	 */
-	$('#btnBackEmail').on('click', function () {
+	$('#btnBackEmail').on('click', () => {
 		$('#listaEmails').show();
-		$(
-			'#previa'
-		).html(`<button id="btnBackEmail" type="button" class="btnFixLeft" title="VOLTAR"><i class="fa-solid fa-chevron-left"></i> <i class="fa-solid fa-envelope"></i></button>
+		$('#previa')
+			.html(`<button id="btnBackEmail" type="button" class="btnFixLeft" title="VOLTAR"><i class="fa-solid fa-chevron-left"></i> <i class="fa-solid fa-envelope"></i></button>
             <i class="fa-solid fa-eye icon-page"></i>
             <div class="titulo">
                 <h2>PRÉVIA EMAILS</h2>
@@ -283,11 +300,10 @@ function triggersPrevia() {
 	 * On click #submitEnviar
 	 * Call a function with the data and send all the emails
 	 */
-	$(`#submitEnviar`).on('click', function (e) {
+	$(`#submitEnviar`).on('click', (e) => {
 		e.preventDefault();
-
 		if (confirm('Deseja enviar os emails?')) {
-			const doBefore = function () {
+			const doBefore = () => {
 				$('#spinner').show();
 				$('#body').hide();
 				if ($('#spinner').is(':visible') && $('#body').is(':hidden')) {
@@ -297,19 +313,28 @@ function triggersPrevia() {
 				}
 			};
 
-			const sendMail = function (_callback) {
-				$("[id='emailsData']").each(function () {
+			const sendMail = (_callback) => {
+				var totalItems = $('[id="emailsData"]').length;
+				$("[id='emailsData']").each(function (i, e) {
 					const id = $(this).attr('data-id');
 					const nome = $(this).attr('data-nome');
 					const fileList = $(this).attr('data-listaArquivos');
-					emails.enviar(id, fileList, nome);
+					//order sent: first and last
+					if (i == 0) {
+						emails.enviar(id, fileList, nome, true, false);
+					} else if (i == totalItems - 1) {
+						emails.enviar(id, fileList, nome, false, true);
+					} else {
+						emails.enviar(id, fileList, nome, false, false);
+					}
+					i++;
 				});
 
 				_callback();
 			};
 
-			const callSync = function () {
-				sendMail(function () {
+			const callSync = () => {
+				sendMail(() => {
 					$('#body').show();
 					$('#spinner').hide();
 					$('#previa').hide();
@@ -317,7 +342,7 @@ function triggersPrevia() {
 				});
 			};
 			$('#submitEnviar').prop('disabled', true);
-			setTimeout(function () {
+			setTimeout(() => {
 				$('#submitEnviar').prop('disabled', false);
 			}, 5000);
 

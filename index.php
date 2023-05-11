@@ -14,18 +14,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!--PDFJS -->
     <script src="/lib/pdfjs-dist/build/pdf.js"></script>
-    <!--Font Awesome -->
+    <!--Font Awesome CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <!-- CSS styles -->
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 
 <body>
     <div id="body">
+
+
         <!-- Conteudo -->
         <div id="listaFunc"></div>
         <div id="listaEmails" style="display: none;"></div>
-
         <div id="previa" style="display: none;"><button id="btnBackEmail" type="button" class="btnFixLeft" title="VOLTAR"><i class="fa-solid fa-chevron-left"></i> <i class="fa-solid fa-envelope"></i></button>
             <i class="fa-solid fa-eye icon-page"></i>
             <div class="titulo">
@@ -35,7 +36,6 @@
         </div>
         <div id="result" style="display: none;"><i class="fa-solid fa-paper-plane icon-page"></i>
             <div class="titulo">
-
                 <h2>RESULTADO EMAILS ENVIADOS</h2>
             </div>
             <div id="resultPrint"></div>
@@ -44,9 +44,7 @@
 
         <!-- Modal -->
         <div id="modal-bg">
-
             <div id="myModal" class="modal">
-
                 <!-- Modal content -->
                 <div id="modal-content">
                     <div>
@@ -57,18 +55,17 @@
                     </div>
                     <span class="close" on>&times;</span>
                     <div></div>
-
                 </div>
-
             </div>
         </div>
+
 
     </div>
 
 </body>
 
 
-<!-- animação loading -->
+<!-- loading -->
 <div id="spinner" style="display: none;">
     <span class="loader"></span>
 </div>

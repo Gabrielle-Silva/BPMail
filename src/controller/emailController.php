@@ -1,5 +1,4 @@
 <?php
-//TODO: alterar para config e checar se precisa
 require_once('../../lib/config.php');
 require_once(__ABS_DIR__ . 'src/model/email.class.php');
 
@@ -7,45 +6,24 @@ require_once(__ABS_DIR__ . 'src/model/email.class.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require(__ABS_DIR__ . '/lib/PHPMailer/src/Exception.php');
-require(__ABS_DIR__ . '/lib/PHPMailer/src/PHPMailer.php');
-require(__ABS_DIR__ . '/lib/PHPMailer/src/SMTP.php');
-//TODO:colocar na config
-//require('/lib/PHPMailer/src/Exception.php');
-//require('/lib/PHPMailer/src/PHPMailer.php');
-//require('/lib/PHPMailer/src/SMTP.php');
-
-//instanciar objeto
+//new boj
 $objEmail = new emailModel();
-
-
-//Colocando valores dos campos dentro do objeto
-if (isset($_REQUEST['id'])) {
-    $objEmail->setId($_REQUEST['id']);
-}
-
-if (isset($_REQUEST['Nome'])) {
-    $objEmail->setNome($_REQUEST['Nome']);
-    $nome = $_REQUEST['Nome'];
-}
-
-if (isset($_REQUEST['Email'])) {
-    $objEmail->setEmail($_REQUEST['Email']);
-    $email = $_REQUEST['Email'];
-}
-
 if (isset($_REQUEST['arrFunc'])) {
     $objEmail->setArrFunc($_REQUEST['arrFunc']);
 }
 
+//normalize string
+$transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
 
-if (isset($_REQUEST['arquivosGeral'])) {
-    $arquivosGeral[] = $_REQUEST['arquivosGeral'];
+
+if (isset($_REQUEST['Nome'])) {
+    $nome = $_REQUEST['Nome'];
 }
-$arquivos = [];
-if (isset($_REQUEST['arquivos'])) {
-    $arquivos = $_REQUEST['arquivos'];
+
+if (isset($_REQUEST['Email'])) {
+    $email = $_REQUEST['Email'];
 }
+
 if (isset($_REQUEST['arquivosPasta'])) {
     $arquivosPasta = $_REQUEST['arquivosPasta'];
 }
@@ -67,62 +45,49 @@ switch ($action) {
 
 
     case 'read':
-
-        //array com informações dos funcionarios selecionados banco de dados
-
         $result = $objEmail->read();
-        //array com todos os nomes de arquivos na pasta
+        //array containig every file on the folder
         $filesName = [];
         foreach (glob(__ABS_DIR__ . __PATH_FILE__ . '/*' . __EXT_FILE__) as $filename) {
             $p = pathinfo(urldecode($filename));
             $filesName[] = $p['filename'];
         }
-
-
         require_once(__ABS_DIR__ . 'src/view/emailsList.php');
 
         break;
 
+        //for file validation - show if contains name and last name inside pdf file attached from folder
     case 'validate':
-
-
         $currentPage = $_REQUEST['currentPage'];
         $objValidar = json_decode($_REQUEST['objValidar']);
-
         require_once(__ABS_DIR__ . 'src/view/validacao.php');
-
 
         break;
 
     case 'preview':
-
         $preview = true;
         $email;
         $nome;
         $assunto;
         $copias;
-        $mensagem; //criar corpo de mensagem    
+        $mensagem;
         if ($arquivosPasta != "") {
             $arrarquivosPasta = explode(",", $arquivosPasta);
         }
         $_FILES;
-
         require_once(__ABS_DIR__ . 'src/view/previa.php');
-
 
         break;
 
 
 
-
-
-
     case 'sendEmail':
         try {
+            //new obj
             $preview = false;
             $mail = new PHPMailer(true);
             $mail->CharSet = 'UTF-8';
-            // Configurações do servidor
+            // server config - set in config file
             $mail->isSMTP();
             $mail->SMTPAuth = true;
             $mail->Username   = __EMAIL_REMETENTE__;
@@ -132,59 +97,68 @@ switch ($action) {
             $mail->Port = __PORT__;
             $mail->setFrom(__EMAIL_REMETENTE__, __NOME_ASSINATURA__);
 
-
             //$mail->SMTPDebug = 2;
+
             //NOTE: ALTERAR PARA --- $mail->addAddress( $email;, $nome;) --- SOMENTE APÓS ESTAR FINALIZADO
-            $mail->addAddress('magaligames@hotmail.com', $nome);
+            $mail->addAddress('', $nome);
 
-
-            // Conteúdo da mensagem
-            $mail->isHTML(true);  // Seta o formato do e-mail para aceitar conteúdo HTML
+            //--------email message content
+            $mail->isHTML(true);  // set to html
+            //image logo on email message body
             $mail->AddEmbeddedImage(__ABS_DIR__ . __REL_LOGO_PATH__, 'Logo');
-            //Recupera conteudo do arquivo de mensagem para o corpo do email
+            //get the content message from file
             ob_start();
             include(__ABS_DIR__ . 'src/view/mensagem.php');
             $msgContent = ob_get_contents();
             ob_end_clean();
-            $texto = $msgContent;
-            $mail->Body = $texto;
-            $mail->AltBody = strip_tags($texto);
-            // Assunto e prioridade
+            $text = $msgContent;
+            //set the content email message
+            $mail->Body = $text;
+            //strip tags in case doesn't accept html format
+            $mail->AltBody = strip_tags($text);
+
+            // subject and priority
             $mail->Subject = $assunto;
             $mail->Priority = 1;
-            // Cópias
+            // Cc
             if ($copias) {
                 foreach (explode(";", str_replace(" ", "", $copias)) as $copia) {
                     $mail->AddCC($copia, "");
                 }
             }
-            //Anexos
+
+            //---------attachments
             $arrDelete = [];
             $arrDeleteErrorFunc = [];
-            //Arquivos recuperados da pasta
+            //PDF files from folder
             if ($arquivosPasta != "") {
+                //create a folder for emails sent successfully if it doesn't already exist
                 if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"))) {
                     mkdir(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"));
                 }
+
                 $arrarquivosPasta = explode(",", $arquivosPasta);
                 foreach ($arrarquivosPasta as $ap) {
                     $strFile = $ap . ".pdf";
-
+                    //attach each file in the array
                     $statusAttachment = $mail->AddAttachment(__ABS_DIR__ . __PATH_FILE__ . $strFile, $strFile);
+                    //array to keep files names and change folder after email sent
                     if ($statusAttachment) {
                         $arrDelete[] = $strFile;
                     }
                 }
             }
-            //Arquivos de upload
+            //Uploaded files
             foreach ($_FILES as $key => $value) {
+                //create a folder for emails sent successfully if it doesn't already exist
                 if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"))) {
                     mkdir(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y"));
                 }
                 if (isset($value['name'])) {
                     $statusAttachment =  $mail->AddAttachment($value['tmp_name'], $value['name']);
-                    //Anexos gerais
+                    //Files attached for everyone
                     if (($statusAttachment) && (str_contains($key, 'arquivosGeral'))) {
+                        //create folder and copy file
                         $strPath = 'Enviados' . date("d-m-Y") . '/.Geral';
                         if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
                             mkdir(__ABS_DIR__ . __PATH_FILE__ . $strPath);
@@ -193,25 +167,27 @@ switch ($action) {
                             copy($value['tmp_name'], __ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name']);
                         }
                     }
-                    //Anexos individuais
+                    //Files attached individually
+                    //create folder and copy file
                     if (($statusAttachment) && (str_contains($key, str_replace(' ', '-', $nome)))) {
                         $strPath = 'Enviados' . date("d-m-Y") . '/' . str_replace(' ', '-', $nome);
                         if (!file_exists(__ABS_DIR__ . __PATH_FILE__ . $strPath)) {
                             mkdir(__ABS_DIR__ . __PATH_FILE__ . $strPath);
                         }
                         copy($value['tmp_name'], __ABS_DIR__ . __PATH_FILE__ . $strPath . '/' . $value['name']);
+                        //array with files, to delete from sent folder in case of error to send email
                         $arrDeleteErrorFunc[] = $strPath . '/' . $value['name'];
                     }
                 }
             }
-
-
-            // Enviar
+            //SEND
             $statusSendMail = $mail->send();
-            $msgResult = 'Email enviado com sucesso!';
 
+            //If send sucesss
+            $msgResult = 'Email enviado com sucesso!';
             if (($statusSendMail) && (isset($arrDelete))) {
                 foreach ($arrDelete as $arq) {
+                    //copy file to sent folder and delete from origin
                     $statusCopy = copy(__ABS_DIR__ . __PATH_FILE__ .  $arq, __ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $strFile);
                     if ($statusCopy) {
                         unlink(__ABS_DIR__ . __PATH_FILE__ .  $arq);
@@ -219,10 +195,14 @@ switch ($action) {
                 }
             }
         } catch (Exception $e) {
+
             if (isset($statusSendMail) && $statusSendMail) {
+                //Email was send, but with a error
                 $msgResult = 'Email enviado, mas foi encontrado um erro: ' . $mail->ErrorInfo;
             } else {
+                //Email wasn't send
                 $msgResult = 'O EMAIL NÃO FOI ENVIADO! ERRO: ' . $mail->ErrorInfo;
+                //Delete the individual copys file from sent folder
                 if (isset($arrDeleteErrorFunc)) {
                     foreach ($arrDeleteErrorFunc as $arqF) {
                         unlink(__ABS_DIR__ . __PATH_FILE__ . $arqF);
@@ -230,6 +210,8 @@ switch ($action) {
                 }
             }
         }
+
+        //Dislayed final status        
         echo '<div>Destinatario: ' . $email . '<br>' . 'Assunto: ' . $assunto . '<br>' . $msgResult . '<br>Data/Hora: ' . date('d/m/Y H:i') . '</div><hr>';
         break;
 

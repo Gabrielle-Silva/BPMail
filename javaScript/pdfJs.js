@@ -1,4 +1,13 @@
 /**
+ * @param string the string to apply mask
+ *
+ * @return string - String without any accent
+ */
+function charMask(string) {
+	return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+/**
  * @param string: nomeArquivo(file name)
  * @param string: path(path to the file)
  *
@@ -33,8 +42,6 @@ function viewPdf(nomeArquivo, path) {
 	var PDF_URL = path + decodeURI(nomeArquivo);
 	pdfjsLib.GlobalWorkerOptions.workerSrc =
 		'./lib/pdfjs-dist/build/pdf.worker.js';
-	//var pdfjsLib = window['/lib/pdfjs-dist/build/pdf'];
-	//pdfjsLib.GlobalWorkerOptions.workerSrc = './lib/pdfjs-dist/build/pdf.worker.js';
 	let loadingTask = pdfjsLib.getDocument(decodeURI(PDF_URL));
 
 	var pdfDoc = null,
@@ -163,10 +170,12 @@ function chamaValidar(nomeArquivo, nome, sobrenome, id) {
 
 				page.getTextContent().then(function (textContent) {
 					for (let j = 0; j < textContent.items.length; j++) {
-						arrContent.push(textContent.items[j].str.toUpperCase());
+						arrContent.push(charMask(textContent.items[j].str.toUpperCase()));
 					}
 
 					let objPaginas = {};
+					nome = charMask(nome);
+					sobrenome = charMask(sobrenome);
 
 					var nomeRegex = new RegExp(`(${nome.toUpperCase()})`, 'g');
 					var SobrenomeRegex = new RegExp(`(${sobrenome.toUpperCase()})`, 'g');
