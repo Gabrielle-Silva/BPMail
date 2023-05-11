@@ -50,3 +50,5 @@ After sending, a report is displayed with the status of each email."
 
 ![image](https://user-images.githubusercontent.com/95390786/235417138-b6d5e94e-6eb4-4d3b-9521-6d4f9f13456e.png)
 
+
+--start whith the lib/config-Public.php file
