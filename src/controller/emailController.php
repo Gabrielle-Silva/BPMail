@@ -188,8 +188,8 @@ switch ($action) {
             if (($statusSendMail) && (isset($arrDelete))) {
                 foreach ($arrDelete as $arq) {
                     //copy file to sent folder and delete from origin
-                    $statusCopy = copy(__ABS_DIR__ . __PATH_FILE__ .  $arq, __ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $strFile);
-                    if ($statusCopy) {
+                    $statusCopy = copy(__ABS_DIR__ . __PATH_FILE__ .  $arq, __ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $arq);
+                    if ($statusCopy && file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $strFile)) {
                         unlink(__ABS_DIR__ . __PATH_FILE__ .  $arq);
                     }
                 }
