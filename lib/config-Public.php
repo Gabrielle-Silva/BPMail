@@ -11,7 +11,8 @@ define('__EXT_FILE__', '.pdf');
 //Absolute path until aplication - IT IS NOT RECOMMENDED TO ALTER
 define('__ABS_DIR__', $_SERVER['DOCUMENT_ROOT'] . '/');
 
-
+//timezone
+date_default_timezone_set('America/Sao_Paulo');
 
 
 /**

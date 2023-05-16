@@ -100,7 +100,7 @@ switch ($action) {
             //$mail->SMTPDebug = 2;
 
             //NOTE: ALTERAR PARA --- $mail->addAddress( $email;, $nome;) --- SOMENTE APÓS ESTAR FINALIZADO
-            $mail->addAddress('', $nome);
+            $mail->addAddress('gabrielle.silva@bplus.com.br', $nome);
 
             //--------email message content
             $mail->isHTML(true);  // set to html
@@ -189,7 +189,7 @@ switch ($action) {
                 foreach ($arrDelete as $arq) {
                     //copy file to sent folder and delete from origin
                     $statusCopy = copy(__ABS_DIR__ . __PATH_FILE__ .  $arq, __ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $arq);
-                    if ($statusCopy && file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $strFile)) {
+                    if ($statusCopy && file_exists(__ABS_DIR__ . __PATH_FILE__ . 'Enviados' . date("d-m-Y") . '/' . $arq)) {
                         unlink(__ABS_DIR__ . __PATH_FILE__ .  $arq);
                     }
                 }
